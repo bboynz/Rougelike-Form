@@ -9,3 +9,4 @@ C:\Users\bboyn\source\repos\Rougelike\Rougelike\bin\Debug\Rougelike.pdb
 C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.GameForm.resources
 C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.exe
 C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.pdb
+C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.MainForm.resources

@@ -75,7 +75,9 @@ namespace Rougelike
 
         private void label1_Click(object sender, EventArgs e)
         {
+            //Ends all form tasks
             bgMusic.Stop();
+            this.Hide();
         }
     }
 }

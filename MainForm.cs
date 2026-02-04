@@ -44,6 +44,10 @@ namespace Rougelike
             InitializeComponent();
         }
 
-       
+        private void ShopButton_Click(object sender, EventArgs e)
+        {
+            ShopForm shopForm = new ShopForm();
+            shopForm.Show();
+        }
     }
 }

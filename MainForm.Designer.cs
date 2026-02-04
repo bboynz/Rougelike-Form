@@ -28,13 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.ShopButton = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // ShopButton
+            // 
+            this.ShopButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.ShopButton.Location = new System.Drawing.Point(716, 0);
+            this.ShopButton.Name = "ShopButton";
+            this.ShopButton.Size = new System.Drawing.Size(84, 450);
+            this.ShopButton.TabIndex = 0;
+            this.ShopButton.Text = "Shop";
+            this.ShopButton.UseVisualStyleBackColor = true;
+            this.ShopButton.Click += new System.EventHandler(this.ShopButton_Click);
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.ShopButton);
+            this.Name = "MainForm";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Button ShopButton;
     }
 }
 
