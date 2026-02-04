@@ -7,21 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace Rougelike
 {
     public partial class ShopForm: Form
     {
-        class Item
-        {
-            string name;
-
-            
-        }
+        
 
         public static class ShopItems
         {
-            
+            static MainForm.Item bomb = MainForm.InitializeItem("bomb");
         }
 
         public ShopForm()

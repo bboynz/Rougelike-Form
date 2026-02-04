@@ -12,9 +12,28 @@ namespace Rougelike
 {
     public partial class MainForm: Form
     {
+        public class Item
+        {
+            public string Name;
+
+
+        }
+
+        public static Item InitializeItem(string name)
+        {
+            Item item = new Item();
+
+            item.Name = name;
+
+
+            return item;
+        }
+
         public MainForm()
         {
             InitializeComponent();
         }
+
+       
     }
 }

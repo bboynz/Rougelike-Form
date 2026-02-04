@@ -1,0 +1,5 @@
+C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.csproj.AssemblyReference.cache
+C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.Properties.Resources.resources
+C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.ShopForm.resources
+C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.csproj.GenerateResource.cache
+C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.csproj.CoreCompileInputs.cache
