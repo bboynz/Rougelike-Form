@@ -37,7 +37,7 @@ namespace Rougelike
             return item;
         }
 
-
+         
 
         public MainForm()
         {
@@ -48,6 +48,11 @@ namespace Rougelike
         {
             ShopForm shopForm = new ShopForm();
             shopForm.Show();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

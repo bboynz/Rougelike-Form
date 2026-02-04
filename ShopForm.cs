@@ -19,7 +19,7 @@ namespace Rougelike
 
 
         //Music
-        SoundPlayer bgMusic = new SoundPlayer(@"c:\Windows\Media\chimes.wav");
+        SoundPlayer bgMusic = new SoundPlayer(@"Media\Shop Music.wav    ");
 
 
         //Item Generation
@@ -67,7 +67,7 @@ namespace Rougelike
             Option_2.Image = Image.FromFile(showcasedItems[1].Image);
             Option_3.Image = Image.FromFile(showcasedItems[2].Image);
 
-            bgMusic.Play();
+            bgMusic.PlayLooping();
 
 
 

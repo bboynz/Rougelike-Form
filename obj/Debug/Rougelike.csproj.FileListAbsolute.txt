@@ -10,3 +10,16 @@ C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.GameForm.res
 C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.exe
 C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.pdb
 C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.MainForm.resources
+C:\Users\User\source\repos\Rougelike\Rougelike\bin\Debug\Rougelike.exe.config
+C:\Users\User\source\repos\Rougelike\Rougelike\bin\Debug\Rougelike.exe
+C:\Users\User\source\repos\Rougelike\Rougelike\bin\Debug\Rougelike.pdb
+C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.csproj.SuggestedBindingRedirects.cache
+C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.GameForm.resources
+C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.MainForm.resources
+C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.Properties.Resources.resources
+C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.ShopForm.resources
+C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.csproj.GenerateResource.cache
+C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.exe
+C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.pdb
