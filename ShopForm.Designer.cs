@@ -70,6 +70,9 @@
             // 
             // Option_3
             // 
+            this.Option_3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Option_3.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.Option_3.Location = new System.Drawing.Point(477, 187);
             this.Option_3.Name = "Option_3";
@@ -100,7 +103,7 @@
             this.Controls.Add(this.Option_1);
             this.Controls.Add(this.ShopBackground);
             this.Name = "ShopForm";
-            this.Text = "ShopForm";
+            this.Text = "Shop";
             this.Load += new System.EventHandler(this.ShopForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ShopBackground)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Option_1)).EndInit();

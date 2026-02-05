@@ -19,7 +19,7 @@ namespace Rougelike
 
 
         //Music
-        SoundPlayer bgMusic = new SoundPlayer(@"Media\Shop Music.wav    ");
+        SoundPlayer bgMusic = new SoundPlayer(@"Media\Shop Music.wav");
 
 
         //Item Generation

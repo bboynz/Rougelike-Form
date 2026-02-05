@@ -29,29 +29,42 @@
         private void InitializeComponent()
         {
             this.ShopButton = new System.Windows.Forms.Button();
+            this.GameButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ShopButton
             // 
             this.ShopButton.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ShopButton.Location = new System.Drawing.Point(537, 0);
-            this.ShopButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ShopButton.Location = new System.Drawing.Point(716, 0);
+            this.ShopButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ShopButton.Name = "ShopButton";
-            this.ShopButton.Size = new System.Drawing.Size(63, 366);
+            this.ShopButton.Size = new System.Drawing.Size(84, 450);
             this.ShopButton.TabIndex = 0;
             this.ShopButton.Text = "Shop";
             this.ShopButton.UseVisualStyleBackColor = true;
             this.ShopButton.Click += new System.EventHandler(this.ShopButton_Click);
             // 
+            // GameButton
+            // 
+            this.GameButton.Dock = System.Windows.Forms.DockStyle.Left;
+            this.GameButton.Location = new System.Drawing.Point(0, 0);
+            this.GameButton.Name = "GameButton";
+            this.GameButton.Size = new System.Drawing.Size(75, 450);
+            this.GameButton.TabIndex = 1;
+            this.GameButton.Text = "Game";
+            this.GameButton.UseVisualStyleBackColor = true;
+            this.GameButton.Click += new System.EventHandler(this.GameButton_Click);
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 366);
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.GameButton);
             this.Controls.Add(this.ShopButton);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Main";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
@@ -60,6 +73,7 @@
         #endregion
 
         private System.Windows.Forms.Button ShopButton;
+        private System.Windows.Forms.Button GameButton;
     }
 }
 
