@@ -151,30 +151,28 @@ namespace Rougelike
 
         private void ExecuteGameLoop()
         {
-            double tempo = SetTempo();
 
-
-            tempoTimer.Interval = (int)( 1000 * (60/tempo)); // dif 1 is 60/30 so will run every 2 seconds
+            tempoTimer.Interval = ( 1000 * (60/level.tempo)); // dif 1 is 60/30 so will run every 2 seconds
             tempoTimer.Start();
      
         }
 
-        private double SetTempo()
-        {
-            double tempo;
+        //private double SetTempo()
+        //{
+        //    double tempo;
 
-            double num1 = 2 * level.Difficulty;
+        //    double num1 = 2 * level.Difficulty;
 
-            num1 = num1 / 4;
+        //    num1 = num1 / 4;
 
-            num1 = num1 * 60;
+        //    num1 = num1 * 60;
 
 
-            tempo = num1;// 1 = every 2s (30BPM (0.5*60) ), 2 = every 1 second (60BPM (1*60) ), 3 = every 2/3 second (90 BPM (1.5*60) ), etc   
+        //    tempo = num1;// 1 = every 2s (30BPM (0.5*60) ), 2 = every 1 second (60BPM (1*60) ), 3 = every 2/3 second (90 BPM (1.5*60) ), etc   
 
             
-            return (tempo);
-        }
+        //    return (tempo);
+        //}
 
         private void tempoTimer_Tick(object sender, EventArgs e)
         {
