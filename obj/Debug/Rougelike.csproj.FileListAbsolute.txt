@@ -23,3 +23,4 @@ C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.csproj.Genera
 C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.csproj.CoreCompileInputs.cache
 C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.exe
 C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.pdb
+C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.LoginForm.resources

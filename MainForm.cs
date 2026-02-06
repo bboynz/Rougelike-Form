@@ -12,11 +12,28 @@ namespace Rougelike
 {
     public partial class MainForm: Form
     {
-        //Player
-        public List<Item> heldItems = new List<Item>();
+        //this is the main instance that will be used through the program
+        Player player = new Player();
+
+        //___PLAYER CODE___
+        public class Player
+        {
+            public string Username { get; set; }
+            public List<Item> heldItems = new List<Item>();
+        }
+        
+        private Player InitializePlayer(string username)
+        {
+            //Sets up player
+            Player player = new Player();
+            player.Username = username;
 
 
-        //Items
+            return player;
+        }
+
+
+        //___ITEM CODE___
         public class Item
         {
             public string Name;
@@ -39,15 +56,11 @@ namespace Rougelike
 
          
 
-        public MainForm()
+        //___FORM CODE___
+        public MainForm(string username)
         {
             InitializeComponent();
-        }
-
-        private void ShopButton_Click(object sender, EventArgs e)
-        {
-            ShopForm shopForm = new ShopForm();
-            shopForm.Show();
+            player = InitializePlayer(username); //sets up the player instance
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -55,9 +68,18 @@ namespace Rougelike
 
         }
 
+
+
+        //___CONTROL CODE___
+        private void ShopButton_Click(object sender, EventArgs e)
+        {
+            ShopForm shopForm = new ShopForm(player);
+            shopForm.Show();
+        }
+
         private void GameButton_Click(object sender, EventArgs e)
         {
-            GameForm gameForm = new GameForm();
+            GameForm gameForm = new GameForm(player);
             gameForm.Show();
 
         }

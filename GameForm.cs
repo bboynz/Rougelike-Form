@@ -12,10 +12,14 @@ namespace Rougelike
 {
     public partial class GameForm: Form
     {
+        //___PUBLIC VARS___
         int winHeight;
         int winWidth;
 
-        public GameForm()
+
+
+        //___FORM CODE___
+        public GameForm(MainForm.Player player)
         {
 
 
@@ -23,7 +27,7 @@ namespace Rougelike
 
             this.Resize += new EventHandler(GameForm_Resize);
         }
-
+        
         private void GameForm_Load(object sender, EventArgs e)
         {
             winHeight = this.Height;
@@ -33,9 +37,22 @@ namespace Rougelike
             InitializeButton(winWidth / 2, winHeight / 2, 30, Color.Green);
         }
 
+        private void GameForm_Resize(object sender, EventArgs e)
+        {
+
+            //Goes through all active buttons to see if they are in the window boundries
+            foreach (Button button in activeButtons)
+            {
+                CheckButtonLocation(button, button.Width);
+            }
+
+        }
+
+
+
+        //___CONTROL CODE___
+
         public List<Button> activeButtons = new List<Button>();
-
-
 
         public void InitializeButton(int X, int Y, int size, Color color)
         {
@@ -119,15 +136,6 @@ namespace Rougelike
         }
 
 
-        private void GameForm_Resize(object sender, EventArgs e)
-        {
-            
-            //Goes through all active buttons to see if they are in the window boundries
-            foreach(Button button in activeButtons)
-            {
-                CheckButtonLocation(button, button.Width);
-            }
-
-        }
+        
     }
 }

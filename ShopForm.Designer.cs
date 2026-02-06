@@ -57,6 +57,7 @@
             this.Option_1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Option_1.TabIndex = 1;
             this.Option_1.TabStop = false;
+            this.Option_1.Click += new System.EventHandler(this.Option_1_Click);
             // 
             // Option_2
             // 
@@ -67,6 +68,7 @@
             this.Option_2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Option_2.TabIndex = 2;
             this.Option_2.TabStop = false;
+            this.Option_2.Click += new System.EventHandler(this.Option_2_Click);
             // 
             // Option_3
             // 
@@ -80,6 +82,7 @@
             this.Option_3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Option_3.TabIndex = 3;
             this.Option_3.TabStop = false;
+            this.Option_3.Click += new System.EventHandler(this.Option_3_Click);
             // 
             // ExitLabel
             // 

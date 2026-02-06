@@ -22,7 +22,7 @@ namespace Rougelike
         SoundPlayer bgMusic = new SoundPlayer(@"Media\Shop Music.wav");
 
 
-        //Item Generation
+        //___ITEM CODE___
         Random random = new Random();
 
         public static class ShopItems
@@ -42,7 +42,10 @@ namespace Rougelike
             
         }
 
-        public ShopForm()
+
+
+        //___FORM CODE___
+        public ShopForm(MainForm.Player player)
         {
             InitializeComponent();
         }
@@ -73,11 +76,28 @@ namespace Rougelike
 
         }
 
+
+        //___CONTROL CODE___
         private void label1_Click(object sender, EventArgs e)
         {
             //Ends all form tasks
             bgMusic.Stop();
             this.Hide();
+        }
+
+        private void Option_1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Option_2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Option_3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
