@@ -13,17 +13,22 @@ namespace Rougelike
     public partial class GameForm: Form
     {
         //___PUBLIC VARS___
-        int winHeight;
-        int winWidth;
+        public int winHeight;
+        public int winWidth;
 
+        public bool loopGame;
 
+        public MainForm.Level level = new MainForm.Level();
+        Random random = new Random();
 
         //___FORM CODE___
-        public GameForm(MainForm.Player player)
+        public GameForm(MainForm.Player player, MainForm.Level Level)
         {
 
 
             InitializeComponent();
+
+            level = Level;
 
             this.Resize += new EventHandler(GameForm_Resize);
         }
@@ -33,8 +38,14 @@ namespace Rougelike
             winHeight = this.Height;
             winWidth = this.Width;
 
+            loopGame = true;
 
-            InitializeButton(winWidth / 2, winHeight / 2, 30, Color.Green);
+            //uses await and async run and load GUI
+            ExecuteGameLoop();
+
+
+
+
         }
 
         private void GameForm_Resize(object sender, EventArgs e)
@@ -102,7 +113,7 @@ namespace Rougelike
             activeButtons.Remove(button);
             
             //Makes seperate button
-            InitializeButton(X + 50, Y + 50, size, button.BackColor);
+            //InitializeButton(X + 50, Y + 50, size, button.BackColor);
 
             //Will add different cases if items are held and how to change button spawn in said case.
 
@@ -136,6 +147,46 @@ namespace Rougelike
         }
 
 
-        
+        //___GAME CODE___
+
+        private void ExecuteGameLoop()
+        {
+            double tempo = SetTempo();
+
+
+            tempoTimer.Interval = (int)( 1000 * (60/tempo)); // dif 1 is 60/30 so will run every 2 seconds
+            tempoTimer.Start();
+     
+        }
+
+        private double SetTempo()
+        {
+            double tempo;
+
+            double num1 = 2 * level.Difficulty;
+
+            num1 = num1 / 4;
+
+            num1 = num1 * 60;
+
+
+            tempo = num1;// 1 = every 2s (30BPM (0.5*60) ), 2 = every 1 second (60BPM (1*60) ), 3 = every 2/3 second (90 BPM (1.5*60) ), etc   
+
+            
+            return (tempo);
+        }
+
+        private void tempoTimer_Tick(object sender, EventArgs e)
+        {
+            if (loopGame)
+            {
+                InitializeButton(random.Next(winWidth), random.Next(winHeight), 30, Color.Green);
+            }
+            else
+            {
+                tempoTimer.Stop();
+            }
+            
+        }
     }
 }

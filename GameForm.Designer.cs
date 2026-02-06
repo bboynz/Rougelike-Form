@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.Background = new System.Windows.Forms.PictureBox();
+            this.tempoTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.Background)).BeginInit();
             this.SuspendLayout();
             // 
@@ -40,6 +42,10 @@
             this.Background.Size = new System.Drawing.Size(800, 450);
             this.Background.TabIndex = 0;
             this.Background.TabStop = false;
+            // 
+            // tempoTimer
+            // 
+            this.tempoTimer.Tick += new System.EventHandler(this.tempoTimer_Tick);
             // 
             // GameForm
             // 
@@ -58,5 +64,6 @@
         #endregion
 
         private System.Windows.Forms.PictureBox Background;
+        private System.Windows.Forms.Timer tempoTimer;
     }
 }
