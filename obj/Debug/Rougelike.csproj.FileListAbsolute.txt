@@ -24,3 +24,4 @@ C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.csproj.CoreCo
 C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.exe
 C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.pdb
 C:\Users\bboyn\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.LoginForm.resources
+C:\Users\User\source\repos\Rougelike\Rougelike\obj\Debug\Rougelike.LoginForm.resources

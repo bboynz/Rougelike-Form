@@ -114,7 +114,7 @@ namespace Rougelike
             LevelButton.BackColor = Color.RosyBrown;
             
 
-            selectedLevel = InitializeLevel(4, "bob's house");
+            selectedLevel = InitializeLevel(3, "bob's house");
 
             levelNameLabel.Text = selectedLevel.Name;
         }
@@ -122,6 +122,11 @@ namespace Rougelike
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void LevelButton_MouseHover(object sender, EventArgs e)
+        {
+
         }
     }
 }
