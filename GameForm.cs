@@ -21,6 +21,7 @@ namespace Rougelike
 
             InitializeComponent();
 
+            this.Resize += new EventHandler(GameForm_Resize);
         }
 
         private void GameForm_Load(object sender, EventArgs e)
@@ -28,13 +29,18 @@ namespace Rougelike
             winHeight = this.Height;
             winWidth = this.Width;
 
+
             InitializeButton(winWidth / 2, winHeight / 2, 30, Color.Green);
         }
+
+        public List<Button> activeButtons = new List<Button>();
+
+
 
         public void InitializeButton(int X, int Y, int size, Color color)
         {
             Button button = new Button();
-            
+            activeButtons.Add(button);
 
             //Constant values
             button.Anchor = AnchorStyles.None;
@@ -55,24 +61,7 @@ namespace Rougelike
             winHeight = this.Height;
             winWidth = this.Width;
 
-                //checks if button is in window boundaries for X axis, if it's not puts it in bounds
-            if (button.Location.X > winWidth-size*2)
-            {
-                button.Location = new Point(button.Location.X, button.Location.X - Math.Abs(button.Location.X - winHeight));
-            }
-            if (button.Location.X < 0)
-            {
-                button.Location = new Point(button.Location.X, button.Location.X + Math.Abs(button.Location.X - winHeight));
-            }
-                //checks if button is in window boundaries for Y axis, if it's not puts it in bounds
-            if (button.Location.Y > winHeight-size*2)
-            {
-                button.Location = new Point(button.Location.Y , button.Location.Y - Math.Abs(button.Location.Y - winHeight));
-            }
-            if (button.Location.Y < 0)
-            {
-                button.Location = new Point(button.Location.Y, button.Location.Y + Math.Abs(button.Location.Y - winHeight));
-            }
+            CheckButtonLocation(button, button.Width);
 
 
             //Button events
@@ -93,14 +82,52 @@ namespace Rougelike
             button.Hide();
             button.Dispose();
             this.Controls.Remove(button);
+            activeButtons.Remove(button);
             
             //Makes seperate button
-            InitializeButton(X, Y + 20, size, button.BackColor);
+            InitializeButton(X + 50, Y + 50, size, button.BackColor);
 
             //Will add different cases if items are held and how to change button spawn in said case.
 
 
             //
+        }
+
+        private void CheckButtonLocation(Button button, int size)
+        {
+            winHeight = this.Height;
+            winWidth = this.Width;
+
+            //checks if button is in window boundaries for X axis, if it's not puts it in bounds
+            if (button.Location.X > winWidth - (size * 1.5))
+            {
+                button.Location = new Point(winWidth - (size * 1 + (size / 2)), button.Location.Y);
+            }
+            if (button.Location.X < 0)
+            {
+                button.Location = new Point(0, button.Location.Y);
+            }
+            //checks if button is in window boundaries for Y axis, if it's not puts it in bounds
+            if (button.Location.Y > winHeight - (size * 2.5))
+            {
+                button.Location = new Point(button.Location.X, winHeight - (size * 2 + (size / 3))); //Weird constant that makes the button skim the window boarder
+            }
+            if (button.Location.Y < 0)
+            {
+                button.Location = new Point(button.Location.X, 0);
+            }
+        }
+
+
+        private void GameForm_Resize(object sender, EventArgs e)
+        {
+            
+            //Goes through all active buttons to see if they are in the window boundries
+            foreach(Button button in activeButtons)
+            {
+                CheckButtonLocation(button, button.Width);
+            }
+
         }
     }
 }
