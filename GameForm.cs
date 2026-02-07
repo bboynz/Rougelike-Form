@@ -16,7 +16,13 @@ namespace Rougelike
         public int winHeight;
         public int winWidth;
 
+            //game loop vars
         public bool loopGame;
+        public int cycles;
+
+            //progress tracking
+        public int buttons = 0;
+        public int points = 0;
 
         public MainForm.Level level = new MainForm.Level();
         Random random = new Random();
@@ -39,6 +45,10 @@ namespace Rougelike
             winWidth = this.Width;
 
             loopGame = true;
+
+            cycles = level.Length;
+            progressCount.Text = $"{points}/{level.Length}";
+            progressBar1.Maximum = level.Length;
 
             //uses await and async run and load GUI
             ExecuteGameLoop();
@@ -66,7 +76,9 @@ namespace Rougelike
         public List<Button> activeButtons = new List<Button>();
 
         public void InitializeButton(int X, int Y, int size, Color color)
-        {
+        { 
+            buttons++;
+
             Button button = new Button();
             activeButtons.Add(button);
 
@@ -111,7 +123,13 @@ namespace Rougelike
             button.Dispose();
             this.Controls.Remove(button);
             activeButtons.Remove(button);
+
+            buttons--;
+            points++;
             
+            progressCount.Text = $"{points}/{level.Length}";
+            progressBar1.Value = points;
+
             //Makes seperate button
             //InitializeButton(X + 50, Y + 50, size, button.BackColor);
 
@@ -151,8 +169,13 @@ namespace Rougelike
 
         private void ExecuteGameLoop()
         {
+            cycles = level.Length;
 
-            tempoTimer.Interval = ( 1000 * (60/level.tempo)); // dif 1 is 60/30 so will run every 2 seconds
+            double timing = 60;
+            timing = timing / level.tempo;
+            timing = timing * 1000;
+
+            tempoTimer.Interval = (int)timing; // dif 1 is 60/30 so will run every 2 seconds
             tempoTimer.Start();
      
         }
@@ -176,14 +199,30 @@ namespace Rougelike
 
         private void tempoTimer_Tick(object sender, EventArgs e)
         {
+            if (cycles <= 0)
+            {
+                loopGame = false;
+            }
+
             if (loopGame)
             {
                 InitializeButton(random.Next(winWidth), random.Next(winHeight), 30, Color.Green);
+                cycles--;
             }
             else
             {
-                tempoTimer.Stop();
+                if (buttons == 0){
+
+                    tempoTimer.Stop();
+
+                    //game stats
+
+                    this.Hide();
+                    this.Dispose();
+                }
+                
             }
+
             
         }
     }

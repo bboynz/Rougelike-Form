@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.Background = new System.Windows.Forms.PictureBox();
             this.tempoTimer = new System.Windows.Forms.Timer(this.components);
+            this.progressCount = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.Background)).BeginInit();
             this.SuspendLayout();
             // 
@@ -38,8 +40,9 @@
             // 
             this.Background.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Background.Location = new System.Drawing.Point(0, 0);
+            this.Background.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Background.Name = "Background";
-            this.Background.Size = new System.Drawing.Size(800, 450);
+            this.Background.Size = new System.Drawing.Size(600, 366);
             this.Background.TabIndex = 0;
             this.Background.TabStop = false;
             // 
@@ -47,17 +50,42 @@
             // 
             this.tempoTimer.Tick += new System.EventHandler(this.tempoTimer_Tick);
             // 
+            // progressCount
+            // 
+            this.progressCount.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.progressCount.AutoSize = true;
+            this.progressCount.Location = new System.Drawing.Point(269, 12);
+            this.progressCount.Name = "progressCount";
+            this.progressCount.Size = new System.Drawing.Size(26, 13);
+            this.progressCount.TabIndex = 1;
+            this.progressCount.Text = "X/X";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.progressBar1.ForeColor = System.Drawing.Color.Maroon;
+            this.progressBar1.Location = new System.Drawing.Point(233, 25);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(100, 23);
+            this.progressBar1.Step = 1;
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar1.TabIndex = 2;
+            // 
             // GameForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.progressCount);
             this.Controls.Add(this.Background);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "GameForm";
             this.Text = "GameForm";
             this.Load += new System.EventHandler(this.GameForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Background)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -65,5 +93,7 @@
 
         private System.Windows.Forms.PictureBox Background;
         private System.Windows.Forms.Timer tempoTimer;
+        private System.Windows.Forms.Label progressCount;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }

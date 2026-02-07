@@ -35,6 +35,7 @@ namespace Rougelike
 
             public int Difficulty;//this will define the tempo and base pacing
             public int tempo;
+            public int Length;
 
             public List<string> tags = new List<string>();
 
@@ -72,7 +73,7 @@ namespace Rougelike
             return player;
         }
 
-        private Level InitializeLevel(int difficulty, string name, string path, int id)
+        private Level InitializeLevel(int difficulty, string name, string path, int id, int length)
         {
 
             Level level = new Level();
@@ -81,6 +82,7 @@ namespace Rougelike
             level.Difficulty = difficulty;
             level.Name = name;
             level.ID = id;
+            level.Length = length;
 
             //tempo is measured in BPM
             double num1 = 2 * level.Difficulty;
@@ -99,6 +101,7 @@ namespace Rougelike
             levelButton.Cursor = Cursors.Cross;
             levelButton.Anchor = AnchorStyles.None;
             levelButton.BackgroundImageLayout = ImageLayout.Zoom;
+
 
             levelButton.Location = new Point(((this.Width / 2) - levelButton.Width), ((this.Height / 2) - levelButton.Height));
 
@@ -192,16 +195,16 @@ namespace Rougelike
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            selectedLevel = InitializeLevel(1, "Base level", @"media\LevelPlaceHolder.jpg", 0);
+            selectedLevel = InitializeLevel(1, "Base level", @"media\LevelPlaceHolder.jpg", 0, 20);
             selectedLevel.levelButton.PerformClick();
 
-            InitializeLevel(2, "level 2", @"media\LevelPlaceHolder.jpg", 1);
-            InitializeLevel(2, "level 3", @"media\LevelPlaceHolder.jpg", 2);
-            InitializeLevel(3, "level 4", @"media\LevelPlaceHolder.jpg", 3);
-            InitializeLevel(3, "level 5", @"media\LevelPlaceHolder.jpg", 4);
-            InitializeLevel(3, "level 6", @"media\LevelPlaceHolder.jpg", 5);
-            InitializeLevel(3, "level 7", @"media\LevelPlaceHolder.jpg", 6);
-            InitializeLevel(4, "level 8", @"media\LevelPlaceHolder.jpg", 7);
+            InitializeLevel(2, "level 2", @"media\LevelPlaceHolder.jpg", 1, 20);
+            InitializeLevel(3, "level 3", @"media\LevelPlaceHolder.jpg", 2, 30);
+            InitializeLevel(4, "level 4", @"media\LevelPlaceHolder.jpg", 3, 40);
+            InitializeLevel(5, "level 5", @"media\LevelPlaceHolder.jpg", 4, 60);
+            InitializeLevel(6, "level 6", @"media\LevelPlaceHolder.jpg", 5, 80);
+            InitializeLevel(7, "level 7", @"media\LevelPlaceHolder.jpg", 6, 100);
+            InitializeLevel(8, "level 8", @"media\LevelPlaceHolder.jpg", 7, 150);
         }
 
 
@@ -244,7 +247,7 @@ namespace Rougelike
             UpdateLevelGUI();
 
             levelNameLabel.Text = selectedLevel.Name;
-            LevelInfoLabel.Text = $"Difficulty: {level.Difficulty} (BPM:{level.tempo}, {60/level.tempo} per second)";
+            LevelInfoLabel.Text = $"Difficulty: {level.Difficulty} (BPM:{level.tempo}, {Math.Round((double)(60.0/level.tempo), 2)} per second)";
 
             
         }
