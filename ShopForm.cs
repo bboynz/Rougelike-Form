@@ -15,7 +15,9 @@ namespace Rougelike
 {
     public partial class ShopForm: Form
     {
-        
+
+        //Reference for chosen items
+        List<MainForm.Item> showcasedItems = new List<MainForm.Item>();
 
 
         //Music
@@ -52,8 +54,7 @@ namespace Rougelike
 
         private void ShopForm_Load(object sender, EventArgs e)
         {
-            //Reference for chosen items
-            List<MainForm.Item> showcasedItems = new List<MainForm.Item>();
+            
             
             int max = ShopItems.shopItemPool.Count-1;
 
@@ -87,7 +88,7 @@ namespace Rougelike
 
         private void Option_1_Click(object sender, EventArgs e)
         {
-
+            showcasedItems[0].Name = Option_1.Name;
         }
 
         private void Option_2_Click(object sender, EventArgs e)
