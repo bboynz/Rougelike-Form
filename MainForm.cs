@@ -167,17 +167,20 @@ namespace Rougelike
         {
             public string Name;
             public string Tag;
+            public string Type;
+            public int Price;
 
             public string Image;
         }
 
-        public static Item InitializeItem(string name, string tag, string type, string image)
+        public static Item InitializeItem(string name, string tag, string type, string image, int price = 0)
         {
             Item item = new Item();
 
             item.Name = name;
             item.Tag = tag;
-            
+            item.Type = type;
+            item.Price = price;
 
             item.Image = image;
 
