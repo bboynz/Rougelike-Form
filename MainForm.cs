@@ -169,11 +169,14 @@ namespace Rougelike
             public string Tag;
             public string Type;
             public int Price;
+            public string Trigger;
 
             public string Image;
+            public Action Behaviour;
+
         }
 
-        public static Item InitializeItem(string name, string tag, string type, string image, int price = 0)
+        public static Item InitializeItem(string name, string tag, string type, string image, int price = 0, Action behaviour = null, string trigger = "")
         {
             Item item = new Item();
 
@@ -181,8 +184,14 @@ namespace Rougelike
             item.Tag = tag;
             item.Type = type;
             item.Price = price;
+            item.Trigger = trigger;
 
             item.Image = image;
+
+            if(item.Type == "pattern")
+            {
+                item.Behaviour = behaviour;
+            }
 
             return item;
         }

@@ -31,9 +31,9 @@ namespace Rougelike
         public static class ShopItems
         {
             //Temp prob use file later
-            static MainForm.Item snake = MainForm.InitializeItem("snake","animal","pattern", @"Media\PlaceHolder.jpg", price: 50);
-            static MainForm.Item worm = MainForm.InitializeItem("worm", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50);
-            static MainForm.Item gekoTail = MainForm.InitializeItem("geko's tail", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50);
+            static MainForm.Item snake = MainForm.InitializeItem("snake","animal","pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "generation");
+            static MainForm.Item worm = MainForm.InitializeItem("worm", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "generation");
+            static MainForm.Item gekoTail = MainForm.InitializeItem("geko's tail", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "click");
             static MainForm.Item metronome = MainForm.InitializeItem("metronome", "music", "timing", @"Media\PlaceHolder.jpg", price: 50);
             static MainForm.Item swing = MainForm.InitializeItem("swing rhythm", "music", "timing", @"Media\PlaceHolder.jpg", price: 50);
             static MainForm.Item presto = MainForm.InitializeItem("presto", "music", "timing", @"Media\PlaceHolder.jpg", price: 50);
