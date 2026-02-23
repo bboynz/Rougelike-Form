@@ -7,11 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Rougelike.MainForm;
 
 namespace Rougelike
 {
     public partial class GameForm: Form
     {
+        Player Player = new Player();
+
         //___PUBLIC VARS___
         public int winHeight;
         public int winWidth;
@@ -35,6 +38,7 @@ namespace Rougelike
             InitializeComponent();
 
             level = Level;
+            Player = player;
 
             this.Resize += new EventHandler(GameForm_Resize);
         }
@@ -75,7 +79,7 @@ namespace Rougelike
 
         public List<Button> activeButtons = new List<Button>();
 
-        public void InitializeButton(int X, int Y, int size, Color color)
+        public void InitializeButton(int X, int Y, int size, Color color, bool clone = false)
         { 
             buttons++;
 
@@ -103,6 +107,12 @@ namespace Rougelike
 
             CheckButtonLocation(button, button.Width);
 
+            if (clone)
+            {
+                button.Name += " Copy";
+            }
+            
+
 
             //Button events
             button.Click += new System.EventHandler(this.gameButton_Click);
@@ -124,11 +134,30 @@ namespace Rougelike
             this.Controls.Remove(button);
             activeButtons.Remove(button);
 
-            buttons--;
-            points++;
+            //So clones don't overload the progress bar
+            if (!button.Name.Contains("Copy"))
+            {
+                buttons--;
+                points++;
+
+                progressCount.Text = $"{points}/{level.Length}";
+                progressBar1.Value = points;
+            }
             
-            progressCount.Text = $"{points}/{level.Length}";
-            progressBar1.Value = points;
+
+            //Click trigger items
+            if (Player.heldItems.Count() > 0)
+            {
+                foreach(Item item in Player.heldItems)
+                {
+                    if(item.Trigger == "click")
+                    {
+                        item.Behaviour(button, this);
+                    }
+                }
+            }
+
+
 
             //Makes seperate button
             //InitializeButton(X + 50, Y + 50, size, button.BackColor);

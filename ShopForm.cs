@@ -17,6 +17,9 @@ namespace Rougelike
     {
         Panel infoPanel = new Panel();
 
+        public MainForm.Player Player = new MainForm.Player();
+        public ShopForm shopForm;
+
         //Reference for chosen items
         List<MainForm.Item> showcasedItems = new List<MainForm.Item>();
         int stock = 3;
@@ -30,10 +33,12 @@ namespace Rougelike
 
         public static class ShopItems
         {
+            static ItemBehaviour itemBehaviour = new ItemBehaviour();
+
             //Temp prob use file later
             static MainForm.Item snake = MainForm.InitializeItem("snake","animal","pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "generation");
             static MainForm.Item worm = MainForm.InitializeItem("worm", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "generation");
-            static MainForm.Item gekoTail = MainForm.InitializeItem("geko's tail", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "click");
+            static MainForm.Item gekoTail = MainForm.InitializeItem("geko's tail", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "click", behaviour: itemBehaviour.GekoTail);
             static MainForm.Item metronome = MainForm.InitializeItem("metronome", "music", "timing", @"Media\PlaceHolder.jpg", price: 50);
             static MainForm.Item swing = MainForm.InitializeItem("swing rhythm", "music", "timing", @"Media\PlaceHolder.jpg", price: 50);
             static MainForm.Item presto = MainForm.InitializeItem("presto", "music", "timing", @"Media\PlaceHolder.jpg", price: 50);
@@ -51,32 +56,51 @@ namespace Rougelike
         public ShopForm(MainForm.Player player)
         {
             InitializeComponent();
+
+            Player = player;
         }
 
         private void ShopForm_Load(object sender, EventArgs e)
         {
             infoPanel.Hide();
-            
-            int max = ShopItems.shopItemPool.Count-1;
 
-            //---Expantion item for more choices?---
+            Option_1.Hide();
+            Option_2.Hide();
+            Option_3.Hide();
 
-            for(int i = stock; i >= 0; i--)
+            if (ShopItems.shopItemPool.Count() > 2)
             {
-                int num = random.Next(0, max);
-                showcasedItems.Add(ShopItems.shopItemPool[num]);
-                ShopItems.shopItemPool.Remove(ShopItems.shopItemPool[num]);
+                Option_1.Show();
+                Option_2.Show();
+                Option_3.Show();
 
-                max = showcasedItems.Count - 1;
+
+                int max = ShopItems.shopItemPool.Count - 1;
+
+                //---Expantion item for more choices?---
+
+                for (int i = stock; i >= 0; i--)
+                {
+                    int num = random.Next(0, max);
+                    showcasedItems.Add(ShopItems.shopItemPool[num]);
+                    ShopItems.shopItemPool.Remove(ShopItems.shopItemPool[num]);
+
+                    max = showcasedItems.Count - 1;
+
+
+                    
+                }
+
+                //Because there are different options I hard code setting the images
+                Option_1.Image = Image.FromFile(showcasedItems[0].Image);
+                Option_2.Image = Image.FromFile(showcasedItems[1].Image);
+                Option_3.Image = Image.FromFile(showcasedItems[2].Image);
             }
             
 
             
 
-            //Because there are different options I hard code setting the images
-            Option_1.Image = Image.FromFile(showcasedItems[0].Image);
-            Option_2.Image = Image.FromFile(showcasedItems[1].Image);
-            Option_3.Image = Image.FromFile(showcasedItems[2].Image);
+            
 
             bgMusic.PlayLooping();
 
@@ -129,32 +153,67 @@ namespace Rougelike
 
         private void Option_1_Click(object sender, EventArgs e)
         {
-            showcasedItems[0].Name = Option_1.Name;
+            if (showcasedItems[0] != null)
+            {
+                showcasedItems[0].Name = Option_1.Name;
+
+                Player.heldItems.Add(showcasedItems[0]);
+                showcasedItems.RemoveAt(0);
+
+                Option_1.Hide();
+            }
         }
 
         private void Option_2_Click(object sender, EventArgs e)
         {
+            if (showcasedItems[1] != null)
+            {
+                showcasedItems[1].Name = Option_2.Name;
 
+                Player.heldItems.Add(showcasedItems[1]);
+                showcasedItems.RemoveAt(1);
+
+                Option_2.Hide();
+            }
         }
 
         private void Option_3_Click(object sender, EventArgs e)
         {
+            if (showcasedItems[2] != null)
+            {
+                showcasedItems[2].Name = Option_3.Name;
 
+                Player.heldItems.Add(showcasedItems[2]);
+                showcasedItems.RemoveAt(2);
+
+                Option_3.Hide();
+            }
+            
         }
 
         private void Option_1_MouseHover(object sender, EventArgs e)
         {
-            InitializeItemInfoPanel(height: 120, width: 400, item: showcasedItems[0]);
+            if (showcasedItems[0] != null)
+            {
+                InitializeItemInfoPanel(height: 120, width: 400, item: showcasedItems[0]);
+            }
+            
         }
 
         private void Option_2_MouseHover(object sender, EventArgs e)
         {
-            InitializeItemInfoPanel(height: 120, width: 400, item: showcasedItems[1]);
+            if (showcasedItems[1] != null)
+            {
+                InitializeItemInfoPanel(height: 120, width: 400, item: showcasedItems[1]);
+            }
         }
 
         private void Option_3_MouseHover(object sender, EventArgs e)
         {
-            InitializeItemInfoPanel(height: 120, width: 400, item: showcasedItems[2]);
+            if (showcasedItems[2] != null)
+            {
+                InitializeItemInfoPanel(height: 120, width: 400, item: showcasedItems[2]);
+            }
         }
 
         private void Option_1_MouseLeave(object sender, EventArgs e)
