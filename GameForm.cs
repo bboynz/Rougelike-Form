@@ -109,6 +109,7 @@ namespace Rougelike
 
             if (clone)
             {
+                buttons--;
                 button.Name += " Copy";
             }
             
