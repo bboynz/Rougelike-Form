@@ -27,6 +27,8 @@ namespace Rougelike
         public int buttons = 0;
         public int points = 0;
 
+        public int WormState = 0;
+
         public MainForm.Level level = new MainForm.Level();
         Random random = new Random();
 
@@ -48,7 +50,23 @@ namespace Rougelike
             winHeight = this.Height;
             winWidth = this.Width;
 
+            if (Player.heldItems.Count() > 0)
+            {
+                foreach (Item item in Player.heldItems)
+                {
+                    if (item.Type == "timing")
+                    {
+
+                    }
+                }
+            }
+
+
             loopGame = true;
+
+            
+            ItemBehaviour itemBehaviour = new ItemBehaviour();
+            itemBehaviour.direction = random.Next(1,4);
 
             cycles = level.Length;
             progressCount.Text = $"{points}/{level.Length}";
@@ -105,18 +123,29 @@ namespace Rougelike
             winHeight = this.Height;
             winWidth = this.Width;
 
-            CheckButtonLocation(button, button.Width);
+
+            if (Player.heldItems.Count() > 0)
+            {
+                foreach (Item item in Player.heldItems)
+                {
+                    if (item.Trigger == "generation")
+                    {
+                        item.Behaviour(this, button);
+                    }
+
+                }
+            }
 
             if (clone)
             {
                 buttons--;
                 button.Name += " Copy";
             }
-            
-
 
             //Button events
             button.Click += new System.EventHandler(this.gameButton_Click);
+
+            CheckButtonLocation(button, button.Width);
         }
 
         void gameButton_Click(object sender, EventArgs e)
@@ -153,7 +182,7 @@ namespace Rougelike
                 {
                     if(item.Trigger == "click")
                     {
-                        item.Behaviour(button, this);
+                        item.Behaviour(this, button);
                     }
                 }
             }
@@ -229,6 +258,7 @@ namespace Rougelike
 
         private void tempoTimer_Tick(object sender, EventArgs e)
         {
+
             if (cycles <= 0)
             {
                 loopGame = false;
@@ -236,7 +266,24 @@ namespace Rougelike
 
             if (loopGame)
             {
-                InitializeButton(random.Next(winWidth), random.Next(winHeight), 30, Color.Green);
+
+                if (Player.heldItems.Count() > 0)
+                {
+                    foreach (Item item in Player.heldItems)
+                    {
+                        if (item.Trigger == "tick")
+                        {
+                            item.Behaviour(this, sender);
+                        }
+                    }
+
+                    InitializeButton(random.Next(winWidth), random.Next(winHeight), 30, Color.Green);
+                }
+                else
+                {
+                    InitializeButton(random.Next(winWidth), random.Next(winHeight), 30, Color.Green);
+                }
+                    
                 cycles--;
             }
             else

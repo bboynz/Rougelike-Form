@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="Resources\New Piskel.gif" />
     <None Include="bin\Debug\Media\Table.png" />
     <Content Include="Media\PlaceHolder.jpg" />
     <None Include="Resources\99e2228047a93ea65b8e9e9410213e42.jpg" />

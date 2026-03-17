@@ -28,16 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.ExitLabel = new System.Windows.Forms.Label();
             this.Option_3 = new System.Windows.Forms.PictureBox();
             this.Option_2 = new System.Windows.Forms.PictureBox();
             this.Option_1 = new System.Windows.Forms.PictureBox();
             this.ShopBackground = new System.Windows.Forms.PictureBox();
-            this.ExitLabel = new System.Windows.Forms.Label();
+            this.RerollLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Option_3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Option_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Option_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ShopBackground)).BeginInit();
             this.SuspendLayout();
+            // 
+            // ExitLabel
+            // 
+            this.ExitLabel.AutoSize = true;
+            this.ExitLabel.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.ExitLabel.Location = new System.Drawing.Point(760, 431);
+            this.ExitLabel.Name = "ExitLabel";
+            this.ExitLabel.Size = new System.Drawing.Size(28, 16);
+            this.ExitLabel.TabIndex = 4;
+            this.ExitLabel.Text = "Exit";
+            this.ExitLabel.Click += new System.EventHandler(this.ExitLabel_Click);
             // 
             // Option_3
             // 
@@ -45,7 +57,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Option_3.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.Option_3.Location = new System.Drawing.Point(477, 187);
+            this.Option_3.Location = new System.Drawing.Point(496, 294);
             this.Option_3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Option_3.Name = "Option_3";
             this.Option_3.Size = new System.Drawing.Size(91, 90);
@@ -59,7 +71,7 @@
             // Option_2
             // 
             this.Option_2.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.Option_2.Location = new System.Drawing.Point(343, 187);
+            this.Option_2.Location = new System.Drawing.Point(365, 315);
             this.Option_2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Option_2.Name = "Option_2";
             this.Option_2.Size = new System.Drawing.Size(91, 90);
@@ -73,7 +85,7 @@
             // Option_1
             // 
             this.Option_1.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.Option_1.Location = new System.Drawing.Point(201, 187);
+            this.Option_1.Location = new System.Drawing.Point(216, 330);
             this.Option_1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Option_1.Name = "Option_1";
             this.Option_1.Size = new System.Drawing.Size(91, 90);
@@ -86,32 +98,34 @@
             // 
             // ShopBackground
             // 
-            this.ShopBackground.BackgroundImage = global::Rougelike.Properties.Resources.Table;
             this.ShopBackground.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ShopBackground.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.ShopBackground.Image = global::Rougelike.Properties.Resources.New_Piskel;
             this.ShopBackground.Location = new System.Drawing.Point(0, 0);
             this.ShopBackground.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ShopBackground.Name = "ShopBackground";
             this.ShopBackground.Size = new System.Drawing.Size(800, 450);
+            this.ShopBackground.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ShopBackground.TabIndex = 0;
             this.ShopBackground.TabStop = false;
             // 
-            // ExitLabel
+            // RerollLabel
             // 
-            this.ExitLabel.AutoSize = true;
-            this.ExitLabel.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.ExitLabel.Location = new System.Drawing.Point(760, 431);
-            this.ExitLabel.Name = "ExitLabel";
-            this.ExitLabel.Size = new System.Drawing.Size(28, 16);
-            this.ExitLabel.TabIndex = 4;
-            this.ExitLabel.Text = "Exit";
-            this.ExitLabel.Click += new System.EventHandler(this.label1_Click);
+            this.RerollLabel.AutoSize = true;
+            this.RerollLabel.BackColor = System.Drawing.Color.IndianRed;
+            this.RerollLabel.Location = new System.Drawing.Point(745, 9);
+            this.RerollLabel.Name = "RerollLabel";
+            this.RerollLabel.Size = new System.Drawing.Size(43, 16);
+            this.RerollLabel.TabIndex = 5;
+            this.RerollLabel.Text = "Reroll";
+            this.RerollLabel.Click += new System.EventHandler(this.RerollLabel_Click);
             // 
             // ShopForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.RerollLabel);
             this.Controls.Add(this.ExitLabel);
             this.Controls.Add(this.Option_3);
             this.Controls.Add(this.Option_2);
@@ -137,5 +151,6 @@
         private System.Windows.Forms.PictureBox Option_2;
         private System.Windows.Forms.PictureBox Option_3;
         private System.Windows.Forms.Label ExitLabel;
+        private System.Windows.Forms.Label RerollLabel;
     }
 }

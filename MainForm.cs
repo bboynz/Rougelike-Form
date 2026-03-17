@@ -172,11 +172,11 @@ namespace Rougelike
             public string Trigger;
 
             public string Image;
-            public Action<Button, GameForm> Behaviour;
+            public Action<GameForm, object> Behaviour;
 
         }
 
-        public static Item InitializeItem(string name, string tag, string type, string image, int price = 0, Action<Button,GameForm> behaviour = null, string trigger = "")
+        public static Item InitializeItem(string name, string tag, string type, string image, int price = 0, Action<GameForm, object> behaviour = null, string trigger = "")
         {
             Item item = new Item();
 
@@ -188,10 +188,11 @@ namespace Rougelike
 
             item.Image = image;
 
-            if(item.Type == "pattern")
-            {
-                item.Behaviour = behaviour;
-            }
+           
+            
+            item.Behaviour = behaviour;
+            
+            
 
             return item;
         }
