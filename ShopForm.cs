@@ -18,10 +18,10 @@ namespace Rougelike
         Panel infoPanel = new Panel();
 
         public MainForm.Player Player = new MainForm.Player();
-        public ShopForm shopForm;
 
         //Reference for chosen items
         List<MainForm.Item> showcasedItems = new List<MainForm.Item>();
+        List<MainForm.Item> shopPool = ShopItems.shopItemPool;
         int stock = 3;
 
         //Music
@@ -41,11 +41,9 @@ namespace Rougelike
             static MainForm.Item gekoTail = MainForm.InitializeItem("geko's tail", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "click", behaviour: itemBehaviour.GekoTail);
             static MainForm.Item metronome = MainForm.InitializeItem("metronome", "music", "timing", @"Media\PlaceHolder.jpg", price: 50);
             static MainForm.Item swing = MainForm.InitializeItem("swing rhythm", "music", "timing", @"Media\PlaceHolder.jpg", price: 50, trigger: "tick", behaviour: itemBehaviour.Swing);
-            static MainForm.Item presto = MainForm.InitializeItem("presto", "music", "timing", @"Media\PlaceHolder.jpg", price: 50);
+            static MainForm.Item presto = MainForm.InitializeItem("presto", "music", "timing", @"Media\PlaceHolder.jpg", price: 50, trigger: "buy", behaviour: itemBehaviour.Presto);
 
             public static List<MainForm.Item> shopItemPool = new List<MainForm.Item> {snake, worm, gekoTail, metronome, swing, presto };
-
-            public static int Amount = shopItemPool.Count();
 
             
         }
@@ -68,18 +66,11 @@ namespace Rougelike
             Option_2.Hide();
             Option_3.Hide();
 
-            if (ShopItems.shopItemPool.Count() > 2)
-            {
-                Option_1.Show();
-                Option_2.Show();
-                Option_3.Show();
+            if (shopPool.Count() > 2) { RerollStock();}
+            else { NoStockLabel.Visible = true; RerollLabel.Hide(); }
 
-                RerollStock();
-                
-            }
-            
 
-            bgMusic.PlayLooping();
+                bgMusic.PlayLooping();
 
         }
 
@@ -127,11 +118,17 @@ namespace Rougelike
                 showcasedItems[0].Name = Option_1.Name;
 
                 Player.heldItems.Add(showcasedItems[0]);
-                //ShopItems.shopItemPool.Remove(showcasedItems[0]);
-                showcasedItems.RemoveAt(0);
+                shopPool.Remove(showcasedItems[0]);
+                //showcasedItems.RemoveAt(0);
                 
 
                 Option_1.Hide();
+
+                //Checks if item is triggered on purchase
+                if (showcasedItems[0].Type == "buy")
+                {
+                    showcasedItems[0].Behaviour(null, Player);
+                }
             }
         }
 
@@ -142,10 +139,16 @@ namespace Rougelike
                 showcasedItems[1].Name = Option_2.Name;
 
                 Player.heldItems.Add(showcasedItems[1]);
-                //ShopItems.shopItemPool.Remove(showcasedItems[0]);
-                showcasedItems.RemoveAt(1);
+                shopPool.Remove(showcasedItems[0]);
+                //showcasedItems.RemoveAt(1);
 
                 Option_2.Hide();
+
+                //Checks if item is triggered on purchase
+                if (showcasedItems[0].Type == "buy")
+                {
+                    showcasedItems[0].Behaviour(null, Player);
+                }
             }
         }
 
@@ -156,10 +159,16 @@ namespace Rougelike
                 showcasedItems[2].Name = Option_3.Name;
 
                 Player.heldItems.Add(showcasedItems[2]);
-                //ShopItems.shopItemPool.Remove(showcasedItems[0]);
-                showcasedItems.RemoveAt(2);
+                shopPool.Remove(showcasedItems[0]);
+                //showcasedItems.RemoveAt(2);
 
                 Option_3.Hide();
+
+                //Checks if item is triggered on purchase
+                if (showcasedItems[0].Type == "buy")
+                {
+                    showcasedItems[0].Behaviour(null, Player);
+                }
             }
             
         }
@@ -211,27 +220,50 @@ namespace Rougelike
 
         public void RerollStock()
         {
-            //sets max based off the number of items in the shop pool
-            int max = ShopItems.shopItemPool.Count - 1;
+            //Resets the list
+            showcasedItems = new List<MainForm.Item>();
 
+            //Makes the items visible
+            Option_1.Show();
+            Option_2.Show();
+            Option_3.Show();
+
+            //Gets new seed for random
+            random = new Random();
+
+            //sets max based off the number of items in the shop pool
+            int max = shopPool.Count - 1;
+            
             //---Expantion item for more choices?---
 
-            for (int i = stock; i >= 0; i--)
+            for (int i = 1; i <= stock; i++)
             {
+                //chooses random if possible
+                int num = 0;
+                if (max != 0)
+                {
+                    num = random.Next(0, max);
+                }
                 
-                int num = random.Next(0, max);
+                //item reference
+                MainForm.Item item = shopPool[num];
 
-                
-                showcasedItems.Add(ShopItems.shopItemPool[num]);
-                ShopItems.shopItemPool.Remove(showcasedItems.Last());
+                //swaps the item around
+                showcasedItems.Add(item);
+                shopPool.Remove(item); // If I want to make it so items only show once in shops
 
-                max = ShopItems.shopItemPool.Count - 1;
+                //recalculates the max amount
+                max = shopPool.Count - 1;
             }
 
             //Because there are different options I hard code setting the images
             Option_1.Image = Image.FromFile(showcasedItems[0].Image);
             Option_2.Image = Image.FromFile(showcasedItems[1].Image);
             Option_3.Image = Image.FromFile(showcasedItems[2].Image);
+
+            //Makes it impossible to break by trying to reroll when impossible
+            if (shopPool.Count() < 3) {RerollLabel.Hide();}
+            else { RerollLabel.Show();}
         }
 
         private void ExitLabel_Click(object sender, EventArgs e)
@@ -241,5 +273,6 @@ namespace Rougelike
             this.Hide();
             this.Dispose();
         }
+
     }
 }

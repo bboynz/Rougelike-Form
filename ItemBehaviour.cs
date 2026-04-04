@@ -20,8 +20,17 @@ namespace Rougelike
         Point pastPoint = new Point();
         public int direction = 0;
 
-        
+        //Presto
+        public bool presto = false;
 
+        public void Presto(GameForm gameForm, object Player)
+        {
+            presto = true;
+
+            Player player = (Player)Player;
+            
+
+        }
         public void Swing(GameForm gameForm, object timer)
         {
             
@@ -36,6 +45,9 @@ namespace Rougelike
                 timing = timing / level.tempo;
                 timing = timing * 400;
 
+                if (presto) { timing = timing / 2; }
+
+
                 tempoTimer.Interval = (int)timing;
 
                 swingState = 2; //continues cycle
@@ -45,6 +57,9 @@ namespace Rougelike
                 double timing = 60;
                 timing = timing / level.tempo;
                 timing = timing * 1600;
+
+                if (presto) { timing = timing / 2; }
+
 
                 tempoTimer.Interval = (int)timing;
 
@@ -57,129 +72,134 @@ namespace Rougelike
             random = new Random();
             Button button = (Button)buttonRef;
             int size = button.Size.Width;
-            
 
-            
 
-            
-            //limits
-            if (pastPoint.Y < 20)//too up
+            if (!button.Name.Contains("Copy"))
             {
-                direction = 4;
+
+
+                //limits
+                if (pastPoint.Y < 20)//too up
+                {
+                    direction = 4;
+                }
+                if (pastPoint.X < 20)//too left
+                {
+                    direction = 2;
+                }
+                if (pastPoint.X > gameForm.Width - 50)//too right
+                {
+                    direction = 3;
+                }
+                if (pastPoint.Y > gameForm.Height - 50)//too down
+                {
+                    direction = 1;
+                }
+
+
+
+                //direction
+                int ran = random.Next(1, 2);
+
+
+                switch (direction) //For each direction it gets random for that direction displacement and a minimal displacement for the perpendicular direction
+                {
+                    //up
+                    case 1:
+                        if (ran == 1)
+                        {
+                            button.Location = new Point(pastPoint.X + random.Next(size, size + 10), pastPoint.Y - random.Next(size, size + 100));
+                        }
+                        if (ran == 2)
+                        {
+                            button.Location = new Point(pastPoint.X - random.Next(size, size + 10), pastPoint.Y - random.Next(size, size + 100));
+                        }
+                        break;
+                    //right
+                    case 2:
+                        if (ran == 1)
+                        {
+                            button.Location = new Point(pastPoint.X + random.Next(size, size + 100), pastPoint.Y + random.Next(size, size + 10));
+                        }
+                        if (ran == 2)
+                        {
+                            button.Location = new Point(pastPoint.X + random.Next(size, size + 100), pastPoint.Y - random.Next(size, size + 10));
+                        }
+                        break;
+                    //left
+                    case 3:
+                        if (ran == 1)
+                        {
+                            button.Location = new Point(pastPoint.X - random.Next(size, size + 100), pastPoint.Y + random.Next(size, size + 10));
+                        }
+                        if (ran == 2)
+                        {
+                            button.Location = new Point(pastPoint.X - random.Next(size, size + 100), pastPoint.Y - random.Next(size, size + 10));
+                        }
+                        break;
+                    //down
+                    case 4:
+                        if (ran == 1)
+                        {
+                            button.Location = new Point(pastPoint.X + random.Next(size, size + 10), pastPoint.Y + random.Next(size, size + 100));
+                        }
+                        if (ran == 2)
+                        {
+                            button.Location = new Point(pastPoint.X - random.Next(size, size + 10), pastPoint.Y + random.Next(size, size + 100));
+                        }
+                        break;
+                }
+
+
+
+                pastPoint = button.Location;
             }
-            if (pastPoint.X < 20)//too left
-            {
-                direction = 2;
-            }
-            if (pastPoint.X > gameForm.Width - 50)//too right
-            {
-                direction = 3;
-            }
-            if (pastPoint.Y > gameForm.Height - 50)//too down
-            {
-                direction = 1;
-            }
-            
-
-
-            //direction
-            int ran = random.Next(1, 2);
-
-
-            switch (direction) //For each direction it gets random for that direction displacement and a minimal displacement for the perpendicular direction
-            {
-                //up
-                case 1:
-                    if (ran == 1)
-                    {
-                        button.Location = new Point(pastPoint.X + random.Next(size, size + 10), pastPoint.Y - random.Next(size, size + 100));
-                    }
-                    if (ran == 2)
-                    {
-                        button.Location = new Point(pastPoint.X - random.Next(size, size + 10), pastPoint.Y - random.Next(size, size + 100));
-                    }
-                    break;
-                //right
-                case 2:
-                    if (ran == 1)
-                    {
-                        button.Location = new Point(pastPoint.X + random.Next(size, size + 100), pastPoint.Y + random.Next(size, size + 10));
-                    }
-                    if (ran == 2)
-                    {
-                        button.Location = new Point(pastPoint.X + random.Next(size, size + 100), pastPoint.Y - random.Next(size, size + 10));
-                    }
-                    break;
-                //left
-                case 3:
-                    if (ran == 1)
-                    {
-                        button.Location = new Point(pastPoint.X - random.Next(size, size + 100), pastPoint.Y + random.Next(size, size + 10));
-                    }
-                    if (ran == 2)
-                    {
-                        button.Location = new Point(pastPoint.X - random.Next(size, size + 100), pastPoint.Y - random.Next(size, size + 10));
-                    }
-                    break;
-                //down
-                case 4:
-                    if (ran == 1)
-                    {
-                        button.Location = new Point(pastPoint.X + random.Next(size, size + 10), pastPoint.Y + random.Next(size, size + 100));
-                    }
-                    if (ran == 2)
-                    {
-                        button.Location = new Point(pastPoint.X - random.Next(size, size + 10), pastPoint.Y + random.Next(size, size + 100));
-                    }
-                    break;
-            }
-
-
-
-            pastPoint = button.Location;
         }
         public void Worm(GameForm gameForm, object buttonRef)
         {
             Button button = (Button)buttonRef; //Geko tail only gets button
 
-            if (gameForm.WormState == 0)
+            if (!button.Name.Contains("Copy"))
             {
-                int size = button.Size.Width;
+                if (gameForm.WormState == 0)
+                {
+                    int size = button.Size.Width;
 
-                button.Width = size;
-                button.Height = size;
+                    button.Width = size;
+                    button.Height = size;
 
-                gameForm.WormState = 1;
-            }
-            else if (gameForm.WormState == 1)
-            {
-                int size = button.Size.Width;
-                size = size - (size / 4);
+                    gameForm.WormState = 1;
+                }
+                else if (gameForm.WormState == 1)
+                {
+                    int size = button.Size.Width;
+                    size = size - (size / 4);
 
-                button.Width = size;
-                button.Height = size;
+                    button.Width = size;
+                    button.Height = size;
 
-                gameForm.WormState = 2;
-            }
-            else if (gameForm.WormState == 2)
-            {
-                int size = button.Size.Width;
-                size = size / 2;
+                    gameForm.WormState = 2;
+                }
+                else if (gameForm.WormState == 2)
+                {
+                    int size = button.Size.Width;
+                    size = size / 2;
 
-                button.Width = size;
-                button.Height = size;
+                    button.Width = size;
+                    button.Height = size;
 
-                gameForm.WormState = 3;
-            }
-            else if (gameForm.WormState == 3)
-            {
-                int size = button.Size.Width;
-                size = size - (size / 4);
+                    gameForm.WormState = 3;
+                }
+                else if (gameForm.WormState == 3)
+                {
+                    int size = button.Size.Width;
+                    size = size - (size / 4);
 
-                button.Width = size;
-                button.Height = size;
+                    button.Width = size;
+                    button.Height = size;
 
-                gameForm.WormState = 0;
+                    gameForm.WormState = 0;
+                }
             }
             
         }
@@ -190,12 +210,25 @@ namespace Rougelike
             if (!button.Name.Contains("Copy"))
             {
                 int size = button.Size.Width;
-                size = size / 2;
+                size -= size / 8;
                 gameForm.InitializeButton(button.Location.X + size, button.Location.Y + size, size, button.BackColor,clone: true);
 
             }
 
             
+        }
+        
+        //Obstacles
+
+        public void Bomb(GameForm gameForm, object buttonRef)
+        {
+            random = new Random();
+            int num = random.Next(1, 2);
+            if (num == 1)
+            {
+                Button button = (Button)buttonRef;
+                gameForm.InitializeButton(button.Location.X + 10, button.Location.Y, button.Width, Color.Red, bomb: true);
+            }
         }
     }
 }

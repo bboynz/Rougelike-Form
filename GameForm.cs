@@ -29,6 +29,7 @@ namespace Rougelike
 
         public int WormState = 0;
 
+        ItemBehaviour itemBehaviour = new ItemBehaviour();
         public MainForm.Level level = new MainForm.Level();
         Random random = new Random();
 
@@ -50,23 +51,8 @@ namespace Rougelike
             winHeight = this.Height;
             winWidth = this.Width;
 
-            if (Player.heldItems.Count() > 0)
-            {
-                foreach (Item item in Player.heldItems)
-                {
-                    if (item.Type == "timing")
-                    {
-
-                    }
-                }
-            }
-
 
             loopGame = true;
-
-            
-            ItemBehaviour itemBehaviour = new ItemBehaviour();
-            itemBehaviour.direction = random.Next(1,4);
 
             cycles = level.Length;
             progressCount.Text = $"{points}/{level.Length}";
@@ -97,7 +83,7 @@ namespace Rougelike
 
         public List<Button> activeButtons = new List<Button>();
 
-        public void InitializeButton(int X, int Y, int size, Color color, bool clone = false)
+        public void InitializeButton(int X, int Y, int size, Color color, bool clone = false, bool bomb = false)
         { 
             buttons++;
 
@@ -140,6 +126,11 @@ namespace Rougelike
             {
                 buttons--;
                 button.Name += " Copy";
+            }
+
+            if (bomb)
+            {
+                button.Click += new System.EventHandler(this.EndGameLoop);
             }
 
             //Button events
@@ -228,15 +219,36 @@ namespace Rougelike
 
         private void ExecuteGameLoop()
         {
+            
+
+
             cycles = level.Length;
 
             double timing = 60;
             timing = timing / level.tempo;
             timing = timing * 1000;
 
+            foreach (string tag in level.tags)
+            {
+                if (tag == "bombs")
+                {
+                    
+                    Player.heldItems.Add(MainForm.InitializeItem("bomb", "danger", "obstacle", @"Media\PlaceHolder.jpg", trigger: "generation", behaviour: itemBehaviour.Bomb));
+                }
+            }
+
+
             tempoTimer.Interval = (int)timing; // dif 1 is 60/30 so will run every 2 seconds
             tempoTimer.Start();
      
+        }
+
+        public void EndGameLoop(object sender, EventArgs e)
+        {
+            tempoTimer.Stop();
+            this.Dispose();
+
+            MessageBox.Show("Level Failed");
         }
 
         //private double SetTempo()

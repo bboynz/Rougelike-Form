@@ -26,6 +26,8 @@ namespace Rougelike
         {
             public string Username { get; set; }
             public List<Item> heldItems = new List<Item>();
+            public int points;
+            public int multiplier;
         }
 
         public class Level
@@ -59,7 +61,7 @@ namespace Rougelike
                 set { id = value; }
             }
 
-            public bool unlocked;
+            public bool locked;
 
         }
         
@@ -73,7 +75,7 @@ namespace Rougelike
             return player;
         }
 
-        private Level InitializeLevel(int difficulty, string name, string path, int id, int length)
+        private Level InitializeLevel(int difficulty, string name, string path, int id, int length, string tag = "")
         {
 
             Level level = new Level();
@@ -126,6 +128,8 @@ namespace Rougelike
 
         private void UpdateLevelGUI()
         {
+            int lastId = -1;
+            Level lastLevel = null;
             foreach (Level level in Levels)
             {
                 Button levelButton = level.levelButton;
@@ -148,16 +152,28 @@ namespace Rougelike
                 y = middleY - y;
                 //MessageBox.Show("Y = " + y.ToString());
 
+                if (lastId == level.ID)
+                {
+                    lastLevel.levelButton.Location = new Point(middleX - (lastLevel.levelButton.Width/2), lastLevel.levelButton.Location.Y);
+                    middleX += levelButton.Width/2;
+                }
+
 
                 Point finalPos = new Point(middleX, y);
                 PointLerp(levelButton.Location, finalPos, 10, levelButton);
+
+                
+
 
                 //move gui to front
 
                 selectedLevelLabel.BringToFront();
                 levelNameLabel.BringToFront();
                 LevelInfoLabel.BringToFront();
-                
+
+
+                lastId = level.ID;
+                lastLevel = level;
             }
         }
 
@@ -211,13 +227,14 @@ namespace Rougelike
             selectedLevel = InitializeLevel(1, "Base level", @"media\LevelPlaceHolder.jpg", 0, 20);
             selectedLevel.levelButton.PerformClick();
 
-            InitializeLevel(2, "level 2", @"media\LevelPlaceHolder.jpg", 1, 20);
-            InitializeLevel(3, "level 3", @"media\LevelPlaceHolder.jpg", 2, 30);
-            InitializeLevel(4, "level 4", @"media\LevelPlaceHolder.jpg", 3, 40);
-            InitializeLevel(5, "level 5", @"media\LevelPlaceHolder.jpg", 4, 60);
-            InitializeLevel(6, "level 6", @"media\LevelPlaceHolder.jpg", 5, 80);
-            InitializeLevel(7, "level 7", @"media\LevelPlaceHolder.jpg", 6, 100);
-            InitializeLevel(8, "level 8", @"media\LevelPlaceHolder.jpg", 7, 150);
+            InitializeLevel(2, "level 2", @"media\LevelPlaceHolder.jpg", id: 1, 20);
+            InitializeLevel(2, "Bomb 1", @"media\LevelPlaceHolder.jpg", id: 1, 20);
+            InitializeLevel(3, "level 3", @"media\LevelPlaceHolder.jpg", id: 2, 30);
+            InitializeLevel(4, "level 4", @"media\LevelPlaceHolder.jpg", id: 3, 40);
+            InitializeLevel(5, "level 5", @"media\LevelPlaceHolder.jpg", id: 4, 60);
+            InitializeLevel(6, "level 6", @"media\LevelPlaceHolder.jpg", id: 5, 80);
+            InitializeLevel(7, "level 7", @"media\LevelPlaceHolder.jpg", id: 6, 100);
+            InitializeLevel(8, "level 8", @"media\LevelPlaceHolder.jpg", id: 7, 150);
         }
 
 

@@ -34,6 +34,7 @@
             this.Option_1 = new System.Windows.Forms.PictureBox();
             this.ShopBackground = new System.Windows.Forms.PictureBox();
             this.RerollLabel = new System.Windows.Forms.Label();
+            this.NoStockLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Option_3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Option_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Option_1)).BeginInit();
@@ -120,11 +121,24 @@
             this.RerollLabel.Text = "Reroll";
             this.RerollLabel.Click += new System.EventHandler(this.RerollLabel_Click);
             // 
+            // NoStockLabel
+            // 
+            this.NoStockLabel.AutoSize = true;
+            this.NoStockLabel.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.NoStockLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NoStockLabel.Location = new System.Drawing.Point(330, 345);
+            this.NoStockLabel.Name = "NoStockLabel";
+            this.NoStockLabel.Size = new System.Drawing.Size(160, 39);
+            this.NoStockLabel.TabIndex = 6;
+            this.NoStockLabel.Text = "Sold Out";
+            this.NoStockLabel.Visible = false;
+            // 
             // ShopForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.NoStockLabel);
             this.Controls.Add(this.RerollLabel);
             this.Controls.Add(this.ExitLabel);
             this.Controls.Add(this.Option_3);
@@ -152,5 +166,6 @@
         private System.Windows.Forms.PictureBox Option_3;
         private System.Windows.Forms.Label ExitLabel;
         private System.Windows.Forms.Label RerollLabel;
+        private System.Windows.Forms.Label NoStockLabel;
     }
 }
