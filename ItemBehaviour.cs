@@ -226,8 +226,11 @@ namespace Rougelike
             int num = random.Next(1, 2);
             if (num == 1)
             {
+                
                 Button button = (Button)buttonRef;
-                gameForm.InitializeButton(button.Location.X + 10, button.Location.Y, button.Width, Color.Red, bomb: true);
+                gameForm.InitializeButton(button.Location.X + 10, button.Location.Y, button.Width, Color.Red, bomb: true, clone: true);
+                MessageBox.Show("Bomb!");
+
             }
         }
     }

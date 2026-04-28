@@ -33,6 +33,7 @@
             this.selectedLevelLabel = new System.Windows.Forms.Label();
             this.levelNameLabel = new System.Windows.Forms.Label();
             this.LevelInfoLabel = new System.Windows.Forms.Label();
+            this.pointLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ShopButton
@@ -99,12 +100,24 @@
             this.LevelInfoLabel.TabIndex = 5;
             this.LevelInfoLabel.Text = "Difficulty: (BPM: )";
             // 
+            // pointLabel
+            // 
+            this.pointLabel.AutoSize = true;
+            this.pointLabel.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pointLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pointLabel.Location = new System.Drawing.Point(422, 405);
+            this.pointLabel.Name = "pointLabel";
+            this.pointLabel.Size = new System.Drawing.Size(102, 32);
+            this.pointLabel.TabIndex = 6;
+            this.pointLabel.Text = "Points:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pointLabel);
             this.Controls.Add(this.LevelInfoLabel);
             this.Controls.Add(this.levelNameLabel);
             this.Controls.Add(this.selectedLevelLabel);
@@ -127,6 +140,7 @@
         private System.Windows.Forms.Label selectedLevelLabel;
         private System.Windows.Forms.Label levelNameLabel;
         private System.Windows.Forms.Label LevelInfoLabel;
+        private System.Windows.Forms.Label pointLabel;
     }
 }
 

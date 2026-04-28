@@ -100,6 +100,9 @@ namespace Rougelike
             button.Size = new Size(size, size);
             button.BackColor = color;
 
+            button.BackgroundImage = Image.FromFile(@"Media\PlasticBag.jpg");
+            button.BackgroundImageLayout = ImageLayout.Zoom;
+
             //showing/adding the component
             button.Visible = true;
             this.Controls.Add(button);
@@ -228,14 +231,18 @@ namespace Rougelike
             timing = timing / level.tempo;
             timing = timing * 1000;
 
-            foreach (string tag in level.tags)
+            if(level.Tags != null)
             {
-                if (tag == "bombs")
+                foreach (string tag in level.Tags)
                 {
-                    
-                    Player.heldItems.Add(MainForm.InitializeItem("bomb", "danger", "obstacle", @"Media\PlaceHolder.jpg", trigger: "generation", behaviour: itemBehaviour.Bomb));
+                    if (tag == "bombs")
+                    {
+
+                        Player.heldItems.Add(MainForm.InitializeItem("bomb", "danger", "obstacle", @"Media\PlaceHolder.jpg", trigger: "generation", behaviour: itemBehaviour.Bomb));
+                    }
                 }
             }
+            
 
 
             tempoTimer.Interval = (int)timing; // dif 1 is 60/30 so will run every 2 seconds
@@ -303,6 +310,14 @@ namespace Rougelike
                 if (buttons == 0){
 
                     tempoTimer.Stop();
+
+                    //points
+                    foreach(Item item in Player.heldItems)
+                    {
+                        //Adds to a total mult (maybe would be better to just mult by all items
+                        Player.multiplier += item.addedMult;
+                    }
+                    Player.points = (int)(Player.points + (level.Length * Player.multiplier));
 
                     //game stats
 

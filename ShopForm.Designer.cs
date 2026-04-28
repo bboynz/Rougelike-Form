@@ -35,6 +35,7 @@
             this.ShopBackground = new System.Windows.Forms.PictureBox();
             this.RerollLabel = new System.Windows.Forms.Label();
             this.NoStockLabel = new System.Windows.Forms.Label();
+            this.PointsLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Option_3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Option_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Option_1)).BeginInit();
@@ -128,16 +129,26 @@
             this.NoStockLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NoStockLabel.Location = new System.Drawing.Point(330, 345);
             this.NoStockLabel.Name = "NoStockLabel";
-            this.NoStockLabel.Size = new System.Drawing.Size(160, 39);
+            this.NoStockLabel.Size = new System.Drawing.Size(155, 38);
             this.NoStockLabel.TabIndex = 6;
             this.NoStockLabel.Text = "Sold Out";
             this.NoStockLabel.Visible = false;
+            // 
+            // PointsLabel
+            // 
+            this.PointsLabel.AutoSize = true;
+            this.PointsLabel.Location = new System.Drawing.Point(13, 13);
+            this.PointsLabel.Name = "PointsLabel";
+            this.PointsLabel.Size = new System.Drawing.Size(47, 16);
+            this.PointsLabel.TabIndex = 7;
+            this.PointsLabel.Text = "Points:";
             // 
             // ShopForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.PointsLabel);
             this.Controls.Add(this.NoStockLabel);
             this.Controls.Add(this.RerollLabel);
             this.Controls.Add(this.ExitLabel);
@@ -148,6 +159,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "ShopForm";
             this.Text = " ";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ShopForm_FormClosed);
             this.Load += new System.EventHandler(this.ShopForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Option_3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Option_2)).EndInit();
@@ -167,5 +179,6 @@
         private System.Windows.Forms.Label ExitLabel;
         private System.Windows.Forms.Label RerollLabel;
         private System.Windows.Forms.Label NoStockLabel;
+        private System.Windows.Forms.Label PointsLabel;
     }
 }

@@ -27,7 +27,7 @@ namespace Rougelike
             public string Username { get; set; }
             public List<Item> heldItems = new List<Item>();
             public int points;
-            public int multiplier;
+            public double multiplier = 1;
         }
 
         public class Level
@@ -39,7 +39,7 @@ namespace Rougelike
             public int tempo;
             public int Length;
 
-            public List<string> tags = new List<string>();
+            public List<string> Tags = new List<string>();
 
             public string Name;
 
@@ -64,7 +64,22 @@ namespace Rougelike
             public bool locked;
 
         }
-        
+
+        //___ITEM CODE___
+        public class Item
+        {
+            public string Name;
+            public string Tag;
+            public string Type;
+            public int Price;
+            public string Trigger;
+            public double addedMult;
+
+            public string Image;
+            public Action<GameForm, object> Behaviour;
+
+        }
+
         private Player InitializePlayer(string username)
         {
             //Sets up player
@@ -75,7 +90,7 @@ namespace Rougelike
             return player;
         }
 
-        private Level InitializeLevel(int difficulty, string name, string path, int id, int length, string tag = "")
+        private Level InitializeLevel(int difficulty, string name, string path, int id, int length, List<string> tags = null)
         {
 
             Level level = new Level();
@@ -85,6 +100,7 @@ namespace Rougelike
             level.Name = name;
             level.ID = id;
             level.Length = length;
+            level.Tags = tags;
 
             //tempo is measured in BPM
             double num1 = 2 * level.Difficulty;
@@ -125,6 +141,28 @@ namespace Rougelike
 
             return level;
         }
+
+        public static Item InitializeItem(string name, string tag, string type, string image, int price = 0, Action<GameForm, object> behaviour = null, string trigger = "", double mult = 0)
+        {
+            Item item = new Item();
+
+            item.Name = name;
+            item.Tag = tag;
+            item.Type = type;
+            item.Price = price;
+            item.Trigger = trigger;
+
+            item.Image = image;
+
+            item.addedMult = mult;
+
+            item.Behaviour = behaviour;
+
+
+
+            return item;
+        }
+
 
         private void UpdateLevelGUI()
         {
@@ -178,40 +216,8 @@ namespace Rougelike
         }
 
 
-        //___ITEM CODE___
-        public class Item
-        {
-            public string Name;
-            public string Tag;
-            public string Type;
-            public int Price;
-            public string Trigger;
+        
 
-            public string Image;
-            public Action<GameForm, object> Behaviour;
-
-        }
-
-        public static Item InitializeItem(string name, string tag, string type, string image, int price = 0, Action<GameForm, object> behaviour = null, string trigger = "")
-        {
-            Item item = new Item();
-
-            item.Name = name;
-            item.Tag = tag;
-            item.Type = type;
-            item.Price = price;
-            item.Trigger = trigger;
-
-            item.Image = image;
-
-           
-            
-            item.Behaviour = behaviour;
-            
-            
-
-            return item;
-        }
 
          
 
@@ -228,7 +234,7 @@ namespace Rougelike
             selectedLevel.levelButton.PerformClick();
 
             InitializeLevel(2, "level 2", @"media\LevelPlaceHolder.jpg", id: 1, 20);
-            InitializeLevel(2, "Bomb 1", @"media\LevelPlaceHolder.jpg", id: 1, 20);
+            InitializeLevel(2, "Bomb 1", @"media\LevelPlaceHolder.jpg", id: 1, 20, tags: new List<String> {"bombs"});
             InitializeLevel(3, "level 3", @"media\LevelPlaceHolder.jpg", id: 2, 30);
             InitializeLevel(4, "level 4", @"media\LevelPlaceHolder.jpg", id: 3, 40);
             InitializeLevel(5, "level 5", @"media\LevelPlaceHolder.jpg", id: 4, 60);

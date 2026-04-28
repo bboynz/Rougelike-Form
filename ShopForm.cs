@@ -36,12 +36,12 @@ namespace Rougelike
             static ItemBehaviour itemBehaviour = new ItemBehaviour();
 
             //Temp prob use file later
-            static MainForm.Item snake = MainForm.InitializeItem("snake","animal","pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "generation", behaviour: itemBehaviour.Snake);
-            static MainForm.Item worm = MainForm.InitializeItem("worm", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "generation", behaviour: itemBehaviour.Worm);
-            static MainForm.Item gekoTail = MainForm.InitializeItem("geko's tail", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "click", behaviour: itemBehaviour.GekoTail);
+            static MainForm.Item snake = MainForm.InitializeItem("snake","animal","pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "generation", behaviour: itemBehaviour.Snake, mult: 0.1);
+            static MainForm.Item worm = MainForm.InitializeItem("worm", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "generation", behaviour: itemBehaviour.Worm, mult: 0.2);
+            static MainForm.Item gekoTail = MainForm.InitializeItem("geko's tail", "animal", "pattern", @"Media\PlaceHolder.jpg", price: 50, trigger: "click", behaviour: itemBehaviour.GekoTail, mult: 0.5);
             static MainForm.Item metronome = MainForm.InitializeItem("metronome", "music", "timing", @"Media\PlaceHolder.jpg", price: 50);
-            static MainForm.Item swing = MainForm.InitializeItem("swing rhythm", "music", "timing", @"Media\PlaceHolder.jpg", price: 50, trigger: "tick", behaviour: itemBehaviour.Swing);
-            static MainForm.Item presto = MainForm.InitializeItem("presto", "music", "timing", @"Media\PlaceHolder.jpg", price: 50, trigger: "buy", behaviour: itemBehaviour.Presto);
+            static MainForm.Item swing = MainForm.InitializeItem("swing rhythm", "music", "timing", @"Media\PlaceHolder.jpg", price: 50, trigger: "tick", behaviour: itemBehaviour.Swing, mult: 0.2);
+            static MainForm.Item presto = MainForm.InitializeItem("presto", "music", "timing", @"Media\PlaceHolder.jpg", price: 50, trigger: "buy", behaviour: itemBehaviour.Presto, mult: 1);
 
             public static List<MainForm.Item> shopItemPool = new List<MainForm.Item> {snake, worm, gekoTail, metronome, swing, presto };
 
@@ -66,11 +66,14 @@ namespace Rougelike
             Option_2.Hide();
             Option_3.Hide();
 
+            PointsLabel.Text = Player.points.ToString();
+
+
             if (shopPool.Count() > 2) { RerollStock();}
             else { NoStockLabel.Visible = true; RerollLabel.Hide(); }
 
 
-                bgMusic.PlayLooping();
+            bgMusic.PlayLooping();
 
         }
 
@@ -115,39 +118,54 @@ namespace Rougelike
         {
             if (showcasedItems[0] != null)
             {
-                showcasedItems[0].Name = Option_1.Name;
 
-                Player.heldItems.Add(showcasedItems[0]);
-                shopPool.Remove(showcasedItems[0]);
-                //showcasedItems.RemoveAt(0);
-                
-
-                Option_1.Hide();
-
-                //Checks if item is triggered on purchase
-                if (showcasedItems[0].Type == "buy")
+                if (Player.points >= showcasedItems[0].Price)
                 {
-                    showcasedItems[0].Behaviour(null, Player);
+                    Player.points -= showcasedItems[0].Price;
+                    showcasedItems[0].Name = Option_1.Name;
+                    PointsLabel.Text = Player.points.ToString();
+
+                    Player.heldItems.Add(showcasedItems[0]);
+                    shopPool.Remove(showcasedItems[0]);
+                    //showcasedItems.RemoveAt(0);
+
+
+                    Option_1.Hide();
+
+                    //Checks if item is triggered on purchase
+                    if (showcasedItems[0].Type == "buy")
+                    {
+                        showcasedItems[0].Behaviour(null, Player);
+                    }
+
                 }
+                
             }
         }
 
         private void Option_2_Click(object sender, EventArgs e)
         {
+            
+
             if (showcasedItems[1] != null)
             {
-                showcasedItems[1].Name = Option_2.Name;
-
-                Player.heldItems.Add(showcasedItems[1]);
-                shopPool.Remove(showcasedItems[0]);
-                //showcasedItems.RemoveAt(1);
-
-                Option_2.Hide();
-
-                //Checks if item is triggered on purchase
-                if (showcasedItems[0].Type == "buy")
+                if (Player.points >= showcasedItems[1].Price)
                 {
-                    showcasedItems[0].Behaviour(null, Player);
+                    Player.points -= showcasedItems[1].Price;
+                    showcasedItems[1].Name = Option_2.Name;
+                    PointsLabel.Text = Player.points.ToString();
+
+                    Player.heldItems.Add(showcasedItems[1]);
+                    shopPool.Remove(showcasedItems[0]);
+                    //showcasedItems.RemoveAt(1);
+
+                    Option_2.Hide();
+
+                    //Checks if item is triggered on purchase
+                    if (showcasedItems[0].Type == "buy")
+                    {
+                        showcasedItems[0].Behaviour(null, Player);
+                    }
                 }
             }
         }
@@ -156,18 +174,23 @@ namespace Rougelike
         {
             if (showcasedItems[2] != null)
             {
-                showcasedItems[2].Name = Option_3.Name;
-
-                Player.heldItems.Add(showcasedItems[2]);
-                shopPool.Remove(showcasedItems[0]);
-                //showcasedItems.RemoveAt(2);
-
-                Option_3.Hide();
-
-                //Checks if item is triggered on purchase
-                if (showcasedItems[0].Type == "buy")
+                if (Player.points >= showcasedItems[1].Price)
                 {
-                    showcasedItems[0].Behaviour(null, Player);
+                    Player.points -= showcasedItems[1].Price;
+                    showcasedItems[2].Name = Option_3.Name;
+                    PointsLabel.Text = Player.points.ToString();
+
+                    Player.heldItems.Add(showcasedItems[2]);
+                    shopPool.Remove(showcasedItems[0]);
+                    //showcasedItems.RemoveAt(2);
+
+                    Option_3.Hide();
+
+                    //Checks if item is triggered on purchase
+                    if (showcasedItems[0].Type == "buy")
+                    {
+                        showcasedItems[0].Behaviour(null, Player);
+                    }
                 }
             }
             
@@ -274,5 +297,9 @@ namespace Rougelike
             this.Dispose();
         }
 
+        private void ShopForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            bgMusic.Stop();
+        }
     }
 }
