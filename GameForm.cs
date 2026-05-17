@@ -14,6 +14,7 @@ namespace Rougelike
     public partial class GameForm: Form
     {
         Player Player = new Player();
+        MainForm mainForm;
 
         //___PUBLIC VARS___
         public int winHeight;
@@ -34,14 +35,13 @@ namespace Rougelike
         Random random = new Random();
 
         //___FORM CODE___
-        public GameForm(MainForm.Player player, MainForm.Level Level)
+        public GameForm(MainForm.Player player, MainForm.Level Level, MainForm mainform)
         {
-
-
             InitializeComponent();
 
             level = Level;
             Player = player;
+            mainForm = mainform;
 
             this.Resize += new EventHandler(GameForm_Resize);
         }
@@ -231,6 +231,11 @@ namespace Rougelike
             timing = timing / level.tempo;
             timing = timing * 1000;
 
+            if (Player.Presto)
+            {
+                timing *= 2;
+            }
+
             if(level.Tags != null)
             {
                 foreach (string tag in level.Tags)
@@ -308,20 +313,23 @@ namespace Rougelike
             else
             {
                 if (buttons == 0){
-
+                    //ends the timer
                     tempoTimer.Stop();
 
-                    //points
+                    //adding and manipulatiing points
                     foreach(Item item in Player.heldItems)
                     {
                         //Adds to a total mult (maybe would be better to just mult by all items
-                        Player.multiplier += item.addedMult;
+                        Player.Multiplier += item.addedMult;
                     }
-                    Player.points = (int)(Player.points + (level.Length * Player.multiplier));
+                    Player.Points += (int)(level.Length * Player.Multiplier);
 
-                    //game stats
+                    //closing this form and showing the main form
+                    mainForm.Show();
+                    mainForm.UpdateLevelGUI();
 
                     this.Hide();
+                    this.Close();
                     this.Dispose();
                 }
                 

@@ -15,19 +15,21 @@ namespace Rougelike
     {
         //___REFERENCES__   //these are the main instances that will be used through the program
 
-        Player player = new Player();
+        Player player = new Player(); // refrence for the player informatiom
 
-        Level selectedLevel = new Level();
+        public Level selectedLevel = new Level(); // reference for the level that the payer has selected
 
-        List<Level> Levels = new List<Level>();
+        public List<Level> Levels = new List<Level>(); // A reference for all the lists in the menu
 
         //___PLAYER CODE___
-        public class Player
+        public class Player //
         {
             public string Username { get; set; }
             public List<Item> heldItems = new List<Item>();
-            public int points;
-            public double multiplier = 1;
+
+            public int Points;
+            public double Multiplier = 1;
+            public bool Presto = false;
         }
 
         public class Level
@@ -164,7 +166,7 @@ namespace Rougelike
         }
 
 
-        private void UpdateLevelGUI()
+        public void UpdateLevelGUI()
         {
             int lastId = -1;
             Level lastLevel = null;
@@ -208,6 +210,10 @@ namespace Rougelike
                 selectedLevelLabel.BringToFront();
                 levelNameLabel.BringToFront();
                 LevelInfoLabel.BringToFront();
+                pointLabel.BringToFront();
+
+                //Updating the point label
+                pointLabel.Text = "points: " + player.Points.ToString();
 
 
                 lastId = level.ID;
@@ -230,17 +236,18 @@ namespace Rougelike
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            selectedLevel = InitializeLevel(1, "Base level", @"media\LevelPlaceHolder.jpg", 0, 20);
+            //initialize the levels and select the first level
+            selectedLevel = InitializeLevel(2, "Beach", @"media\beachLevel.png", 0, 20);
             selectedLevel.levelButton.PerformClick();
 
-            InitializeLevel(2, "level 2", @"media\LevelPlaceHolder.jpg", id: 1, 20);
-            InitializeLevel(2, "Bomb 1", @"media\LevelPlaceHolder.jpg", id: 1, 20, tags: new List<String> {"bombs"});
-            InitializeLevel(3, "level 3", @"media\LevelPlaceHolder.jpg", id: 2, 30);
-            InitializeLevel(4, "level 4", @"media\LevelPlaceHolder.jpg", id: 3, 40);
-            InitializeLevel(5, "level 5", @"media\LevelPlaceHolder.jpg", id: 4, 60);
-            InitializeLevel(6, "level 6", @"media\LevelPlaceHolder.jpg", id: 5, 80);
-            InitializeLevel(7, "level 7", @"media\LevelPlaceHolder.jpg", id: 6, 100);
-            InitializeLevel(8, "level 8", @"media\LevelPlaceHolder.jpg", id: 7, 150);
+            InitializeLevel(2, "Park", @"media\parkLevel.png", id: 1, 30);
+            InitializeLevel(2, "Beach level 2", @"media\beachLevel.png", id: 2, 20);
+            InitializeLevel(3, "Park level 2", @"media\parkLevel.png", id: 2, 30);
+            InitializeLevel(4, "Beach level 3", @"media\beachLevel.png", id: 3, 40);
+            InitializeLevel(5, "Park Level 3", @"media\parkLevel.png", id: 4, 60);
+
+            //update the gui
+            
         }
 
 
@@ -248,14 +255,17 @@ namespace Rougelike
         //___CONTROL CODE___
         private void ShopButton_Click(object sender, EventArgs e)
         {
-            ShopForm shopForm = new ShopForm(player);
+            //Creates and opens a shop form, also sends over a reference to the player
+            ShopForm shopForm = new ShopForm(player, this);
             shopForm.Show();
         }
 
         private void GameButton_Click(object sender, EventArgs e)
         {
-            GameForm gameForm = new GameForm(player,selectedLevel);
+            //Creates and opens a game form, and sends over a reference to the player the the current level
+            GameForm gameForm = new GameForm(player, selectedLevel, this);
             gameForm.Show();
+            this.Hide();
 
         }
         private void LevelButton_Click(object sender, EventArgs e)
@@ -283,9 +293,17 @@ namespace Rougelike
             UpdateLevelGUI();
 
             levelNameLabel.Text = selectedLevel.Name;
-            LevelInfoLabel.Text = $"Difficulty: {level.Difficulty} (BPM:{level.tempo}, {Math.Round((double)(60.0/level.tempo), 2)} per second)";
 
-            
+            if (!player.Presto)
+            {
+                LevelInfoLabel.Text = $"Difficulty: {level.Difficulty} (BPM:{level.tempo}, {Math.Round((double)(60.0 / level.tempo), 2)} per second)";
+            }
+            else
+            {
+                LevelInfoLabel.Text = $"Difficulty: {level.Difficulty*2} (BPM:{level.tempo*2}, {Math.Round((double)(60.0 / level.tempo*2), 2)} per second)";
+            }
+
+
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)

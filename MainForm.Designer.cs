@@ -102,6 +102,7 @@
             // 
             // pointLabel
             // 
+            this.pointLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pointLabel.AutoSize = true;
             this.pointLabel.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.pointLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

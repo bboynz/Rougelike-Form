@@ -20,15 +20,12 @@ namespace Rougelike
         Point pastPoint = new Point();
         public int direction = 0;
 
-        //Presto
-        public bool presto = false;
 
         public void Presto(GameForm gameForm, object Player)
         {
-            presto = true;
 
             Player player = (Player)Player;
-            
+            player.Presto = true;
 
         }
         public void Swing(GameForm gameForm, object timer)
@@ -45,7 +42,6 @@ namespace Rougelike
                 timing = timing / level.tempo;
                 timing = timing * 400;
 
-                if (presto) { timing = timing / 2; }
 
 
                 tempoTimer.Interval = (int)timing;
@@ -58,7 +54,6 @@ namespace Rougelike
                 timing = timing / level.tempo;
                 timing = timing * 1600;
 
-                if (presto) { timing = timing / 2; }
 
 
                 tempoTimer.Interval = (int)timing;
