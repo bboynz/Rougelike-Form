@@ -22,31 +22,32 @@ namespace Rougelike
         public List<Level> Levels = new List<Level>(); // A reference for all the lists in the menu
 
         //___PLAYER CODE___
-        public class Player //
+        public class Player //class to store information about the player
         {
-            public string Username { get; set; }
-            public List<Item> heldItems = new List<Item>();
+            public string Username;//tracks the player username
+            public List<Item> heldItems = new List<Item>();//a list of the items the player has
 
-            public int Points;
-            public double Multiplier = 1;
-            public bool Presto = false;
+            public int Points;//tracks how many points the player has
+            public double Multiplier = 1;//multiplys the points gained from completeing levels
+            public bool Presto = false;//tracks if presto is enabled
         }
 
-        public class Level
+        public class Level //class to store information about the levels
         {
+            //the gui of the level
             public Button levelButton = new Button();
 
 
             public int Difficulty;//this will define the tempo and base pacing
-            public int tempo;
-            public int Length;
+            public int tempo;//the tempo of the level
+            public int Length;//how many buttons spawn/cycles happen
 
-            public List<string> Tags = new List<string>();
+            public List<string> Tags = new List<string>();//a list of tags used to check if the level has a tag
 
-            public string Name;
+            public string Name;//name of the level
 
 
-            private string image;
+            private string image;//used by the setter getter to set the image
             public string ButtonImage //automaticly sets button image
             {
                 get { return image; }
@@ -56,13 +57,9 @@ namespace Rougelike
                 }
             }
 
-            private int id;
-            public int ID 
-            {
-                get { return id; }
-                set { id = value; }
-            }
-
+            //the id to organize and render the gui
+            public int ID;
+            //incase I want to lock the level
             public bool locked;
 
         }
@@ -70,15 +67,15 @@ namespace Rougelike
         //___ITEM CODE___
         public class Item
         {
-            public string Name;
-            public string Tag;
-            public string Type;
-            public int Price;
-            public string Trigger;
-            public double addedMult;
+            public string Name;//name of the item
+            public string Tag;//information tag of the item
+            public string Type;//the type of item
+            public int Price;//how much the item costs
+            public string Trigger;//when the item is triggered
+            public double addedMult;//how much mult it adds to the player
 
-            public string Image;
-            public Action<GameForm, object> Behaviour;
+            public string Image;//the path to the image for the item
+            public Action<GameForm, object> Behaviour;// the method that is called for the item
 
         }
 
@@ -91,20 +88,21 @@ namespace Rougelike
 
             return player;
         }
-
+        //creates a object of the level class
         private Level InitializeLevel(int difficulty, string name, string path, int id, int length, List<string> tags = null)
         {
-
+            //Creates a new level class and a button for the gui
             Level level = new Level();
             Button levelButton = level.levelButton;
 
+            //sets the level's variables from the parameters
             level.Difficulty = difficulty;
             level.Name = name;
             level.ID = id;
             level.Length = length;
             level.Tags = tags;
 
-            //tempo is measured in BPM
+            //tempo is measured in BPM so calculates it
             double num1 = 2 * level.Difficulty;
             num1 = num1 / 4;
             num1 = num1 * 60;
@@ -112,7 +110,7 @@ namespace Rougelike
             level.tempo = (int)num1;
 
 
-            //Button Setup
+            //Button Setup based of the level path
             levelButton.Width = 100;
             levelButton.Height = 50;
             levelButton.Padding = new Padding(3,2,3,2);
@@ -127,27 +125,32 @@ namespace Rougelike
 
             level.ButtonImage = path;
 
-
+            //connects all the events
             levelButton.Click += new System.EventHandler(this.LevelButton_Click);
             levelButton.MouseHover += new System.EventHandler(this.LevelButton_MouseHover);
             levelButton.MouseLeave += new System.EventHandler(this.LevelButton_MouseLeave);
 
+            //makes the level button visible
             levelButton.Visible = true;
             this.Controls.Add(levelButton);
             levelButton.BringToFront();
 
+            //adds the level to level lists
             Levels.Add(level);
 
 
-            UpdateLevelGUI(); //could use task.run() 
+            UpdateLevelGUI();//updates all the gui
 
+            //returns the level
             return level;
         }
-
+        //creates and returns a object of the item class
         public static Item InitializeItem(string name, string tag, string type, string image, int price = 0, Action<GameForm, object> behaviour = null, string trigger = "", double mult = 0)
         {
+            //creates the object
             Item item = new Item();
 
+            //sets all the item variables
             item.Name = name;
             item.Tag = tag;
             item.Type = type;
@@ -161,13 +164,14 @@ namespace Rougelike
             item.Behaviour = behaviour;
 
 
-
+            //returns the object of the item class
             return item;
         }
 
-
+        //used to update the gui
         public void UpdateLevelGUI()
         {
+            //used to keep track of the last id
             int lastId = -1;
             Level lastLevel = null;
             foreach (Level level in Levels)
@@ -192,13 +196,14 @@ namespace Rougelike
                 y = middleY - y;
                 //MessageBox.Show("Y = " + y.ToString());
 
+                //if they have the same id
                 if (lastId == level.ID)
                 {
                     lastLevel.levelButton.Location = new Point(middleX - (lastLevel.levelButton.Width/2), lastLevel.levelButton.Location.Y);
                     middleX += levelButton.Width/2;
                 }
 
-
+                //a reference to the last position then moves the button to the desegnated position based off the selected 
                 Point finalPos = new Point(middleX, y);
                 PointLerp(levelButton.Location, finalPos, 10, levelButton);
 
@@ -215,21 +220,17 @@ namespace Rougelike
                 //Updating the point label
                 pointLabel.Text = "points: " + player.Points.ToString();
 
-
+                //updates the lastID and level
                 lastId = level.ID;
                 lastLevel = level;
             }
         }
-
-
-        
-
-
          
 
         //___FORM CODE___
         public MainForm(string username)
         {
+            //creates the player
             InitializeComponent();
             player = InitializePlayer(username); //sets up the player instance
         }
@@ -245,8 +246,6 @@ namespace Rougelike
             InitializeLevel(3, "Park level 2", @"media\parkLevel.png", id: 2, 30);
             InitializeLevel(4, "Beach level 3", @"media\beachLevel.png", id: 3, 40);
             InitializeLevel(5, "Park Level 3", @"media\parkLevel.png", id: 4, 60);
-
-            //update the gui
             
         }
 
@@ -272,7 +271,7 @@ namespace Rougelike
         {
             Button levelButton = (Button)sender; //gets referecne from object that triggdred event
 
-            Level level = new Level();
+            Level level = new Level();//creates a level reference
 
             foreach(Level i in Levels) //finds the assoiated level
             {
@@ -288,12 +287,13 @@ namespace Rougelike
             selectedLevel.levelButton.BackColor = Color.White;
             levelButton.BackColor = Color.RosyBrown;
 
-            selectedLevel = level;
+            selectedLevel = level;//sets the level reference
 
-            UpdateLevelGUI();
+            UpdateLevelGUI();//updates the gui based of the selected level
 
             levelNameLabel.Text = selectedLevel.Name;
 
+            //checks if presto is enabled so that it updates the gui accordingly
             if (!player.Presto)
             {
                 LevelInfoLabel.Text = $"Difficulty: {level.Difficulty} (BPM:{level.tempo}, {Math.Round((double)(60.0 / level.tempo), 2)} per second)";
@@ -307,21 +307,24 @@ namespace Rougelike
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
+        {//ends the game when the main form is closed
             Application.Exit();
         }
 
         private void LevelButton_MouseHover(object sender, EventArgs e)
         {
-            Button button = (Button)sender;
-            //button.BackColor = Color.GhostWhite;
+            //for when the button is hovered over
+            Button button = (Button)sender;//sets the reference type
+            button.BackColor = Color.GhostWhite;
 
         }
 
         private void LevelButton_MouseLeave(object sender, EventArgs e)
         {
+            //sets reference type
             Button button = (Button)sender;
 
+            //updates the back colour when the mouse leaves
             if(button == selectedLevel.levelButton)
             {
                 button.BackColor = Color.RosyBrown;

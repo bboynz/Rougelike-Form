@@ -13,25 +13,28 @@ namespace Rougelike
 {
     public partial class GameForm: Form
     {
+     //CLASS REFERENCE
+        // reference to the current selected level 
+        public MainForm.Level level = new MainForm.Level();
+        //reference to the player
         Player Player = new Player();
+        //reference to the mainform
         MainForm mainForm;
 
-        //___PUBLIC VARS___
-        public int winHeight;
-        public int winWidth;
+     //BOOLS
+        public bool loopGame; //If the game loop is running
 
-            //game loop vars
-        public bool loopGame;
-        public int cycles;
+     //INTS
+        public int cycles; //How many cycles of button spawns should occur
 
             //progress tracking
-        public int buttons = 0;
+        public int buttons = 0; 
+            //how many points are added
         public int points = 0;
 
-        public int WormState = 0;
-
-        ItemBehaviour itemBehaviour = new ItemBehaviour();
-        public MainForm.Level level = new MainForm.Level();
+     
+     //RANDOM
+        //reference to a random
         Random random = new Random();
 
         //___FORM CODE___
@@ -39,22 +42,25 @@ namespace Rougelike
         {
             InitializeComponent();
 
+            //sets the references based of the parameters
             level = Level;
             Player = player;
             mainForm = mainform;
 
+            //connects the resize event to the GameForm_Resize method
             this.Resize += new EventHandler(GameForm_Resize);
         }
         
+        //Runs when the form loads
         private void GameForm_Load(object sender, EventArgs e)
         {
-            winHeight = this.Height;
-            winWidth = this.Width;
 
-
+            //starts the game loop when the form loads
             loopGame = true;
 
+            //sets the cycles to the level length
             cycles = level.Length;
+            //Initialize the progress bar gui
             progressCount.Text = $"{points}/{level.Length}";
             progressBar1.Maximum = level.Length;
 
@@ -80,13 +86,15 @@ namespace Rougelike
 
 
         //___CONTROL CODE___
-
+        //A reference to the current buttons in the form
         public List<Button> activeButtons = new List<Button>();
 
-        public void InitializeButton(int X, int Y, int size, Color color, bool clone = false, bool bomb = false)
+        public void InitializeButton(int X, int Y, int size, Color color, bool clone = false)
         { 
+            //adds to the button int tracker
             buttons++;
 
+            //creates a new button and adds it to the list of current buttons in the list
             Button button = new Button();
             activeButtons.Add(button);
 
@@ -95,11 +103,12 @@ namespace Rougelike
             button.Text = "";
             button.Cursor = Cursors.Cross;
 
-            //set values 
+            //set values based of parameters
             button.Location = new Point(X - (size/2), Y - (size/2));
             button.Size = new Size(size, size);
             button.BackColor = color;
 
+            //Sets the background image
             button.BackgroundImage = Image.FromFile(@"Media\PlasticBag.jpg");
             button.BackgroundImageLayout = ImageLayout.Zoom;
 
@@ -109,10 +118,11 @@ namespace Rougelike
             button.BringToFront();
 
             //Edge case protection
-            winHeight = this.Height;
-            winWidth = this.Width;
+            this.Height = this.Height;
+            this.Width = this.Width;
 
 
+            //checks if the player has an item that triggers in the button generation by looking through the player item inventory stored in a list of items.
             if (Player.heldItems.Count() > 0)
             {
                 foreach (Item item in Player.heldItems)
@@ -125,20 +135,17 @@ namespace Rougelike
                 }
             }
 
+            //checks if the button is a clone
             if (clone)
             {
                 buttons--;
                 button.Name += " Copy";
             }
 
-            if (bomb)
-            {
-                button.Click += new System.EventHandler(this.EndGameLoop);
-            }
-
-            //Button events
+            //Connects the button's click event to the gameButton_Click method
             button.Click += new System.EventHandler(this.gameButton_Click);
 
+            //checks if the button in within the game limits
             CheckButtonLocation(button, button.Width);
         }
 
@@ -161,15 +168,17 @@ namespace Rougelike
             //So clones don't overload the progress bar
             if (!button.Name.Contains("Copy"))
             {
+                //updates the points and buttons innt tracker
                 buttons--;
                 points++;
 
+                //updates the progress 
                 progressCount.Text = $"{points}/{level.Length}";
                 progressBar1.Value = points;
             }
             
 
-            //Click trigger items
+            //checks through the player list of items to see if they contain an item that triggers on the click
             if (Player.heldItems.Count() > 0)
             {
                 foreach(Item item in Player.heldItems)
@@ -194,22 +203,20 @@ namespace Rougelike
 
         private void CheckButtonLocation(Button button, int size)
         {
-            winHeight = this.Height;
-            winWidth = this.Width;
 
             //checks if button is in window boundaries for X axis, if it's not puts it in bounds
-            if (button.Location.X > winWidth - (size * 1.5))
+            if (button.Location.X > this.Width - (size * 1.5))
             {
-                button.Location = new Point(winWidth - (size * 1 + (size / 2)), button.Location.Y);
+                button.Location = new Point(this.Width - (size * 1 + (size / 2)), button.Location.Y);
             }
             if (button.Location.X < 0)
             {
                 button.Location = new Point(0, button.Location.Y);
             }
             //checks if button is in window boundaries for Y axis, if it's not puts it in bounds
-            if (button.Location.Y > winHeight - (size * 2.5))
+            if (button.Location.Y > this.Height - (size * 2.5))
             {
-                button.Location = new Point(button.Location.X, winHeight - (size * 2 + (size / 3))); //Weird constant that makes the button skim the window boarder
+                button.Location = new Point(button.Location.X, this.Height - (size * 2 + (size / 3))); //Weird constant that makes the button skim the window boarder
             }
             if (button.Location.Y < 0)
             {
@@ -222,34 +229,20 @@ namespace Rougelike
 
         private void ExecuteGameLoop()
         {
-            
-
-
-            cycles = level.Length;
-
+            //calculates the timing based off the levels tempo
             double timing = 60;
             timing = timing / level.tempo;
             timing = timing * 1000;
 
+            //if the player has a presto
             if (Player.Presto)
             {
                 timing *= 2;
             }
 
-            if(level.Tags != null)
-            {
-                foreach (string tag in level.Tags)
-                {
-                    if (tag == "bombs")
-                    {
-
-                        Player.heldItems.Add(MainForm.InitializeItem("bomb", "danger", "obstacle", @"Media\PlaceHolder.jpg", trigger: "generation", behaviour: itemBehaviour.Bomb));
-                    }
-                }
-            }
             
 
-
+            //sets the interval then starts the timer
             tempoTimer.Interval = (int)timing; // dif 1 is 60/30 so will run every 2 seconds
             tempoTimer.Start();
      
@@ -257,6 +250,7 @@ namespace Rougelike
 
         public void EndGameLoop(object sender, EventArgs e)
         {
+            //stops the game loop
             tempoTimer.Stop();
             this.Dispose();
 
@@ -282,7 +276,7 @@ namespace Rougelike
 
         private void tempoTimer_Tick(object sender, EventArgs e)
         {
-
+            //checks if there is any cycles left if not stops the game loop
             if (cycles <= 0)
             {
                 loopGame = false;
@@ -290,7 +284,7 @@ namespace Rougelike
 
             if (loopGame)
             {
-
+                //checks through the player list of items to see if they contain an item that triggers on the timer tick
                 if (Player.heldItems.Count() > 0)
                 {
                     foreach (Item item in Player.heldItems)
@@ -300,14 +294,16 @@ namespace Rougelike
                             item.Behaviour(this, sender);
                         }
                     }
-
-                    InitializeButton(random.Next(winWidth), random.Next(winHeight), 30, Color.Green);
+                    //creates the button after
+                    InitializeButton(random.Next(this.Width), random.Next(this.Height), 30, Color.Green);
                 }
                 else
                 {
-                    InitializeButton(random.Next(winWidth), random.Next(winHeight), 30, Color.Green);
+                    //creates a button
+                    InitializeButton(random.Next(this.Width), random.Next(this.Height), 30, Color.Green);
                 }
-                    
+                
+                //updates the cycles tracker
                 cycles--;
             }
             else
@@ -329,13 +325,17 @@ namespace Rougelike
                     mainForm.UpdateLevelGUI();
 
                     this.Hide();
-                    this.Close();
                     this.Dispose();
                 }
                 
             }
 
             
+        }
+
+        private void GameForm_FormClosed(object sender, FormClosedEventArgs e)
+        {//ends the game when the main form is closed
+            Application.Exit();
         }
     }
 }

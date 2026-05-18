@@ -31,6 +31,7 @@
             this.UserPrompt = new System.Windows.Forms.Label();
             this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.submitButton = new System.Windows.Forms.Button();
+            this.HowToPlayButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // UserPrompt
@@ -61,6 +62,16 @@
             this.submitButton.UseVisualStyleBackColor = true;
             this.submitButton.Click += new System.EventHandler(this.button1_Click);
             // 
+            // HowToPlayButton
+            // 
+            this.HowToPlayButton.Location = new System.Drawing.Point(626, 39);
+            this.HowToPlayButton.Name = "HowToPlayButton";
+            this.HowToPlayButton.Size = new System.Drawing.Size(75, 49);
+            this.HowToPlayButton.TabIndex = 4;
+            this.HowToPlayButton.Text = "How to Play";
+            this.HowToPlayButton.UseVisualStyleBackColor = true;
+            this.HowToPlayButton.Click += new System.EventHandler(this.HowToPlayButton_Click);
+            // 
             // LoginForm
             // 
             this.AcceptButton = this.submitButton;
@@ -68,6 +79,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.HowToPlayButton);
             this.Controls.Add(this.submitButton);
             this.Controls.Add(this.maskedTextBox1);
             this.Controls.Add(this.UserPrompt);
@@ -83,5 +95,6 @@
         private System.Windows.Forms.Label UserPrompt;
         private System.Windows.Forms.MaskedTextBox maskedTextBox1;
         private System.Windows.Forms.Button submitButton;
+        private System.Windows.Forms.Button HowToPlayButton;
     }
 }

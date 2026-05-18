@@ -17,20 +17,21 @@ namespace Rougelike
         int swingState = 1;
 
         //Snake
+        int WormState;
         Point pastPoint = new Point();
         public int direction = 0;
 
 
         public void Presto(GameForm gameForm, object Player)
         {
-
-            Player player = (Player)Player;
+            //sets the player presto bool to true
+            Player player = (Player)Player;//sets player reference
             player.Presto = true;
 
         }
         public void Swing(GameForm gameForm, object timer)
         {
-            
+            //sets timer reference
             Timer tempoTimer = (Timer)timer;
             Level level = gameForm.level;
 
@@ -38,6 +39,7 @@ namespace Rougelike
 
             if (swingState == 1) //Short interval (bum bum) (10% of 4/4)
             {
+                //calculattes the swing timer to the ratio
                 double timing = 60;
                 timing = timing / level.tempo;
                 timing = timing * 400;
@@ -50,6 +52,7 @@ namespace Rougelike
             }
             else if (swingState == 2) //long interval (bum wait) (40% of 4/4)
             {
+                //calculattes the swing timer to the ratio
                 double timing = 60;
                 timing = timing / level.tempo;
                 timing = timing * 1600;
@@ -101,7 +104,7 @@ namespace Rougelike
                 {
                     //up
                     case 1:
-                        if (ran == 1)
+                        if (ran == 1)//makes the buttons based off of the direction
                         {
                             button.Location = new Point(pastPoint.X + random.Next(size, size + 10), pastPoint.Y - random.Next(size, size + 100));
                         }
@@ -111,7 +114,7 @@ namespace Rougelike
                         }
                         break;
                     //right
-                    case 2:
+                    case 2://makes the buttons based off of the direction
                         if (ran == 1)
                         {
                             button.Location = new Point(pastPoint.X + random.Next(size, size + 100), pastPoint.Y + random.Next(size, size + 10));
@@ -122,7 +125,7 @@ namespace Rougelike
                         }
                         break;
                     //left
-                    case 3:
+                    case 3://makes the buttons based off of the direction
                         if (ran == 1)
                         {
                             button.Location = new Point(pastPoint.X - random.Next(size, size + 100), pastPoint.Y + random.Next(size, size + 10));
@@ -133,7 +136,7 @@ namespace Rougelike
                         }
                         break;
                     //down
-                    case 4:
+                    case 4://makes the buttons based off of the direction
                         if (ran == 1)
                         {
                             button.Location = new Point(pastPoint.X + random.Next(size, size + 10), pastPoint.Y + random.Next(size, size + 100));
@@ -146,26 +149,26 @@ namespace Rougelike
                 }
 
 
-
+                //sets the new past point
                 pastPoint = button.Location;
             }
         }
         public void Worm(GameForm gameForm, object buttonRef)
         {
             Button button = (Button)buttonRef; //Geko tail only gets button
-
+            //only happens if the button isn't a copy
             if (!button.Name.Contains("Copy"))
             {
-                if (gameForm.WormState == 0)
+                if (WormState == 0)//bases on the state sets the size to make it look like a up down effect
                 {
                     int size = button.Size.Width;
 
                     button.Width = size;
                     button.Height = size;
 
-                    gameForm.WormState = 1;
+                    WormState = 1;
                 }
-                else if (gameForm.WormState == 1)
+                else if (WormState == 1)//bases on the state sets the size to make it look like a up down effect
                 {
                     int size = button.Size.Width;
                     size = size - (size / 4);
@@ -173,9 +176,9 @@ namespace Rougelike
                     button.Width = size;
                     button.Height = size;
 
-                    gameForm.WormState = 2;
+                    WormState = 2;
                 }
-                else if (gameForm.WormState == 2)
+                else if (WormState == 2)//bases on the state sets the size to make it look like a up down effect
                 {
                     int size = button.Size.Width;
                     size = size / 2;
@@ -183,9 +186,9 @@ namespace Rougelike
                     button.Width = size;
                     button.Height = size;
 
-                    gameForm.WormState = 3;
+                    WormState = 3;
                 }
-                else if (gameForm.WormState == 3)
+                else if (WormState == 3)
                 {
                     int size = button.Size.Width;
                     size = size - (size / 4);
@@ -193,7 +196,7 @@ namespace Rougelike
                     button.Width = size;
                     button.Height = size;
 
-                    gameForm.WormState = 0;
+                    WormState = 0;
                 }
             }
             
@@ -202,11 +205,11 @@ namespace Rougelike
         {
             Button button = (Button)buttonRef; //Geko tail only gets button
 
-            if (!button.Name.Contains("Copy"))
+            if (!button.Name.Contains("Copy"))//doesn't apply if the button is a copy/clone
             {
-                int size = button.Size.Width;
-                size -= size / 8;
-                gameForm.InitializeButton(button.Location.X + size, button.Location.Y + size, size, button.BackColor,clone: true);
+                int size = button.Size.Width;//sets the size reference
+                size -= size / 8;//updates rhe size
+                gameForm.InitializeButton(button.Location.X + size, button.Location.Y + size, size, button.BackColor,clone: true);//creates a lone button 
 
             }
 
@@ -215,18 +218,18 @@ namespace Rougelike
         
         //Obstacles
 
-        public void Bomb(GameForm gameForm, object buttonRef)
-        {
-            random = new Random();
-            int num = random.Next(1, 2);
-            if (num == 1)
-            {
+        //public void Bomb(GameForm gameForm, object buttonRef)
+        //{
+        //    random = new Random();
+        //    int num = random.Next(1, 2);
+        //    if (num == 1)
+        //    {
                 
-                Button button = (Button)buttonRef;
-                gameForm.InitializeButton(button.Location.X + 10, button.Location.Y, button.Width, Color.Red, bomb: true, clone: true);
-                MessageBox.Show("Bomb!");
+        //        Button button = (Button)buttonRef;
+        //        gameForm.InitializeButton(button.Location.X + 10, button.Location.Y, button.Width, Color.Red, bomb: true, clone: true);
+        //        MessageBox.Show("Bomb!");
 
-            }
-        }
+        //    }
+        //}
     }
 }

@@ -15,14 +15,17 @@ namespace Rougelike
 {
     public partial class ShopForm: Form
     {
+        //The information panel to inform the player
         Panel infoPanel = new Panel();
 
+        //References to the player, and to the main form
         public MainForm.Player Player = new MainForm.Player();
         public MainForm mainForm;
 
-        //Reference for chosen items
+        //Reference for chosen items and the pool of items
         List<MainForm.Item> showcasedItems = new List<MainForm.Item>();
         List<MainForm.Item> shopPool = ShopItems.shopItemPool;
+        //How many items that are stocked
         int stock = 3;
 
         //Music
@@ -32,11 +35,13 @@ namespace Rougelike
         //___ITEM CODE___
         Random random = new Random();
 
+        //A list of the items that are in the shop
         public static class ShopItems
         {
+            //rdference to the item behavour script where I store the functions
             static ItemBehaviour itemBehaviour = new ItemBehaviour();
 
-            //Temp prob use file later
+            //I initialize all the items and add them to the item
             static MainForm.Item snake = MainForm.InitializeItem("snake","animal","pattern", @"Media\snake.png", price: 50, trigger: "generation", behaviour: itemBehaviour.Snake, mult: 0.1);
             static MainForm.Item worm = MainForm.InitializeItem("worm", "animal", "pattern", @"Media\worm.png", price: 50, trigger: "generation", behaviour: itemBehaviour.Worm, mult: 0.2);
             static MainForm.Item gekoTail = MainForm.InitializeItem("geko's tail", "animal", "pattern", @"Media\geckoTail.png", price: 50, trigger: "click", behaviour: itemBehaviour.GekoTail, mult: 0.5);
@@ -50,6 +55,8 @@ namespace Rougelike
 
 
         //___FORM CODE___
+
+        //The shop form
         public ShopForm(MainForm.Player player, MainForm mainForm)
         {
             InitializeComponent();
@@ -58,21 +65,25 @@ namespace Rougelike
             this.mainForm = mainForm;
         }
 
+        //Runs on the shop form
         private void ShopForm_Load(object sender, EventArgs e)
         {
+            //hides the panel
             infoPanel.Hide();
 
+            //hides all the options
             Option_1.Hide();
             Option_2.Hide();
             Option_3.Hide();
 
+            //updates the point label to show the player's point
             PointsLabel.Text = Player.Points.ToString();
 
-
+            //if there is enough items it restocks the shop else it shows the no stock label
             if (shopPool.Count() > 2) { RerollStock();}
             else { NoStockLabel.Visible = true; RerollLabel.Hide(); }
 
-
+            //starts the music
             bgMusic.PlayLooping();
 
         }
@@ -81,55 +92,67 @@ namespace Rougelike
         //___CONTROL CODE___
         public void InitializeItemInfoPanel(int X, int Y, int height, int width, MainForm.Item item)
         {
+            //hides the panel
             infoPanel = new Panel();
 
+            //Sets the location based on the parameters
             infoPanel.Location = new Point(X, (this.Height - height)-Y);
+            //Sets the name based on the parameters
             infoPanel.Name = item.Name;
+            //Sets the size based on the parameters
             infoPanel.Size = new Size(width, height);
 
-
+            //creates the name label 
             Label itemNameLabel = new Label();
             itemNameLabel.Location = new Point(10, 10);
             itemNameLabel.Size = new Size(100, 100);
             itemNameLabel.Font = new Font("Arial", 10);
             itemNameLabel.Text = item.Name;
 
+            //adds the name label to the panel
             infoPanel.Controls.Add(itemNameLabel);
 
+            //creates the information label
             Label itemInfoLabel = new Label();
             itemInfoLabel.Location = new Point(10, 25);
             itemInfoLabel.Size = new Size(200, 200);
 
+            //sets the text
             itemInfoLabel.Text = $" Tag: {item.Tag}\n Type {item.Type}\n Price: {item.Price}";
 
+            //adds the information label
             infoPanel.Controls.Add(itemInfoLabel);
+            //adds the panel to the shop form
             this.Controls.Add(infoPanel);
 
+            //brings important information to the front
             infoPanel.BringToFront();
             itemNameLabel.BringToFront();
             itemInfoLabel.BringToFront();
 
+            //shows the GUI
             infoPanel.Show();
-
             infoPanel.Visible = true;
         }
 
+        //Event called on the first option picture box clicked
         private void Option_1_Click(object sender, EventArgs e)
         {
-            if (showcasedItems[0] != null)
+            if (showcasedItems[0] != null) // so it doesn't run if there is no item
             {
 
-                if (Player.Points >= showcasedItems[0].Price)
+                if (Player.Points >= showcasedItems[0].Price)// Checks if the player has enough points to but the item
                 {
-                    Player.Points -= showcasedItems[0].Price;
+                    Player.Points -= showcasedItems[0].Price;//takes away points from player using reference
+                    //Updates the gui
                     showcasedItems[0].Name = Option_1.Name;
                     PointsLabel.Text = Player.Points.ToString();
-
+                    //adds item to the player 
                     Player.heldItems.Add(showcasedItems[0]);
                     shopPool.Remove(showcasedItems[0]);
                     //showcasedItems.RemoveAt(0);
 
-
+                    //hides the picture
                     Option_1.Hide();
 
                     //Checks if item is triggered on purchase
@@ -143,21 +166,25 @@ namespace Rougelike
             }
         }
 
+        //Event called on the first option picture box clicked
         private void Option_2_Click(object sender, EventArgs e)
         {
             
 
-            if (showcasedItems[1] != null)
+            if (showcasedItems[1] != null)// so it doesn't run if there is no item
             {
-                if (Player.Points >= showcasedItems[1].Price)
+                if (Player.Points >= showcasedItems[1].Price)// Checks if the player has enough points to but the item
                 {
-                    Player.Points -= showcasedItems[1].Price;
+                    Player.Points -= showcasedItems[1].Price;//takes away points from player using reference
+                    //Updates the gui
                     showcasedItems[1].Name = Option_2.Name;
                     PointsLabel.Text = Player.Points.ToString();
-
+                    //adds item to the player 
                     Player.heldItems.Add(showcasedItems[1]);
-                    shopPool.Remove(showcasedItems[0]);
+                    shopPool.Remove(showcasedItems[1]);
                     //showcasedItems.RemoveAt(1);
+
+                    //hides the picturebox
 
                     Option_2.Hide();
 
@@ -170,20 +197,24 @@ namespace Rougelike
             }
         }
 
+        //Event called on the first option picture box clicked
         private void Option_3_Click(object sender, EventArgs e)
         {
-            if (showcasedItems[2] != null)
+            if (showcasedItems[2] != null)// so it doesn't run if there is no item
             {
-                if (Player.Points >= showcasedItems[1].Price)
+                if (Player.Points >= showcasedItems[2].Price)// Checks if the player has enough points to but the item
                 {
-                    Player.Points -= showcasedItems[1].Price;
+                    Player.Points -= showcasedItems[2].Price;//takes away points from player using reference
+                    //Updates the gui
+
                     showcasedItems[2].Name = Option_3.Name;
                     PointsLabel.Text = Player.Points.ToString();
-
+                    //adds item to the player 
                     Player.heldItems.Add(showcasedItems[2]);
-                    shopPool.Remove(showcasedItems[0]);
+                    shopPool.Remove(showcasedItems[2]);
                     //showcasedItems.RemoveAt(2);
 
+                    //hides the picturebox
                     Option_3.Hide();
 
                     //Checks if item is triggered on purchase
@@ -196,51 +227,53 @@ namespace Rougelike
             
         }
 
+        //Event called on the first option picture box hovered over
         private void Option_1_MouseHover(object sender, EventArgs e)
         {
-            if (showcasedItems[0] != null)
+            if (showcasedItems[0] != null)// so it doesn't run if there is no item
             {
-                InitializeItemInfoPanel(X:0, Y:30, height: 120, width: 150, item: showcasedItems[0]);
+                InitializeItemInfoPanel(X:0, Y:30, height: 120, width: 150, item: showcasedItems[0]);//creates the info panel
             }
             
         }
-
+        //Event called on the first option picture box hovered over
         private void Option_2_MouseHover(object sender, EventArgs e)
         {
-            if (showcasedItems[1] != null)
+            if (showcasedItems[1] != null)// so it doesn't run if there is no item
             {
-                InitializeItemInfoPanel(X: 100, Y: 40, height: 120, width: 150, item: showcasedItems[1]);
+                InitializeItemInfoPanel(X: 100, Y: 40, height: 120, width: 150, item: showcasedItems[1]);//creates the info panel
             }
         }
-
+        //Event called on the first option picture box hovered over
         private void Option_3_MouseHover(object sender, EventArgs e)
         {
-            if (showcasedItems[2] != null)
+            if (showcasedItems[2] != null)// so it doesn't run if there is no item
             {
-                InitializeItemInfoPanel(X: 200, Y: 50, height: 120, width: 150, item: showcasedItems[2]);
+                InitializeItemInfoPanel(X: 200, Y: 50, height: 120, width: 150, item: showcasedItems[2]);//creates the info panel
             }
         }
-
+        //Event called on the first option picture box leaves area
         private void Option_1_MouseLeave(object sender, EventArgs e)
         {
-            infoPanel.Hide();
+            infoPanel.Hide();//hides the info panel
         }
-
+        //Event called on the first option picture box leaves area
         private void Option_2_MouseLeave(object sender, EventArgs e)
         {
-            infoPanel.Hide();
+            infoPanel.Hide();//hides the info panel
         }
-
+        //Event called on the first option picture box leaves area
         private void Option_3_MouseLeave(object sender, EventArgs e)
         {
-            infoPanel.Hide();
+            infoPanel.Hide();//hides the info panel
         }
-
+        //Event called on the first option picture box clicked
         private void RerollLabel_Click(object sender, EventArgs e)
         {
-            RerollStock();
+            RerollStock();//restock/rerolls the shop
         }
 
+        //A function to reroll/restock the items in the shop
         public void RerollStock()
         {
             //Resets the list
